@@ -1,818 +1,972 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SE · Admin</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'IBM Plex Sans Arabic',sans-serif;background:#020912;color:#E8F0FF;font-size:14px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
-button,input,select{font-family:inherit}
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#060F1E}::-webkit-scrollbar-thumb{background:#1E3A56;border-radius:2px}
-.shell{display:flex;height:100vh;overflow:hidden}
-.sb{width:240px;flex-shrink:0;background:linear-gradient(180deg,#091628,#060F1E);border-left:1px solid #152840;display:flex;flex-direction:column}
-.sb-brand{padding:14px 12px;border-bottom:1px solid #152840;display:flex;align-items:center;gap:8px}
-.sb-t1{font-family:'Chakra Petch',monospace;font-size:14px;font-weight:700;color:#4F46E5}
-.sb-t2{font-size:10px;color:#3E5878}
-.ub{margin:8px;padding:8px;background:#0C1E38;border:1px solid #152840;border-radius:8px;display:flex;align-items:center;gap:8px}
-.ub-av{width:30px;height:30px;border-radius:7px;background:rgba(79,70,229,.2);color:#818CF8;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
-.ub-nm{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ub-rl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#8098BC}
-.odot{width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 5px #10B981;margin-right:auto;flex-shrink:0}
-.nav{flex:1;overflow-y:auto;padding:5px 0}
-.ng{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#3E5878;letter-spacing:.14em;padding:8px 12px 3px;text-transform:uppercase}
-.ni{display:flex;align-items:center;gap:8px;padding:7px 12px;color:#8098BC;font-size:13px;cursor:pointer;border:none;background:none;width:100%;text-align:right;transition:.12s;border-radius:0}
-.ni:hover{color:#E8F0FF;background:#0C1E38}
-.ni.on{color:#818CF8;background:rgba(79,70,229,.12)}
-.ni .ic{width:18px;text-align:center;font-size:13px}
-.sb-foot{padding:8px;border-top:1px solid #152840;display:flex;gap:5px}
-.btn-lo{flex:1;padding:7px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#EF4444;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer}
-.btn-lg{padding:7px 10px;background:#0C1E38;border:1px solid #152840;color:#8098BC;border-radius:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer}
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
-.topbar{height:52px;background:rgba(6,15,30,.97);border-bottom:1px solid #152840;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
-.tb-ttl{font-family:'Chakra Petch',monospace;font-size:14px;font-weight:600;color:#818CF8}
-.tb-r{display:flex;align-items:center;gap:10px}
-.clk-t{font-family:'Chakra Petch',monospace;font-size:13px;color:#4F46E5}
-.clk-d{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#3E5878}
-.adot{display:flex;align-items:center;gap:5px}
-.adot .d{width:7px;height:7px;border-radius:50%;background:#4F46E5;box-shadow:0 0 5px #4F46E5;animation:pd 2s infinite}
-@keyframes pd{0%,100%{opacity:1}50%{opacity:.4}}
-.page{flex:1;overflow-y:auto;padding:16px}
-/* Cards */
-.sc{background:linear-gradient(145deg,#0C1E38,#091628);border:1px solid #152840;border-radius:10px;padding:14px;position:relative;overflow:hidden;transition:.18s}
-.sc:hover{transform:translateY(-2px)}
-.sc::before{content:'';position:absolute;top:0;right:0;width:60px;height:60px;background:radial-gradient(circle at 100% 0%,#4F46E5 0%,transparent 75%);opacity:.08}
-.sc .sl{font-size:11.5px;color:#8098BC;margin-bottom:8px}
-.sc .sv{font-family:'Chakra Petch',monospace;font-size:28px;font-weight:700;background:linear-gradient(135deg,#4F46E5,#818CF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sc .sv.grn{background:linear-gradient(135deg,#10B981,#34D399)}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-/* Badges */
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:10.5px;font-weight:600;font-family:'IBM Plex Mono',monospace;white-space:nowrap}
-.bg{background:rgba(21,40,64,.8);border:1px solid #152840;color:#8098BC}
-/* Panel */
-.panel{background:#091628;border:1px solid #152840;border-radius:10px;overflow:hidden}
-.ph{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid #152840}
-.ph h3{font-family:'Chakra Petch',monospace;font-size:12.5px;font-weight:600;color:#818CF8}
-/* Buttons */
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #152840;background:#0C1E38;color:#E8F0FF;white-space:nowrap;transition:.14s}
-.btn:hover{background:#1E3A56}
-.btn.p{background:linear-gradient(135deg,#4F46E5,#818CF8);border-color:#4F46E5;color:#fff}
-.btn.p:hover{filter:brightness(1.1)}
-.btn.d{background:transparent;border-color:rgba(239,68,68,.35);color:#EF4444}
-.btn.sm{padding:4px 11px;font-size:11.5px}
-/* User row */
-.ur{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(79,70,229,.07);transition:.13s}
-.ur:hover{background:rgba(79,70,229,.04)}
-.ur:last-child{border-bottom:none}
-.ur-av{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
-/* Form */
-.field{margin-bottom:12px}
-.field label{display:block;font-size:11.5px;color:#8098BC;margin-bottom:4px;font-weight:500}
-.field input,.field select,.field textarea{width:100%;background:#060F1E;border:1px solid #152840;color:#E8F0FF;border-radius:7px;padding:8px 11px;font-size:13.5px;font-family:'IBM Plex Sans Arabic',sans-serif;transition:.14s}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#4F46E5}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ff{grid-column:1/-1}
-/* Modal */
-.mbg{position:fixed;inset:0;background:rgba(2,9,18,.88);backdrop-filter:blur(5px);z-index:200;display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}
-.modal{background:#091628;border:1px solid #152840;border-radius:12px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.8);animation:mani .2s ease}
-@keyframes mani{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
-.modal.w{max-width:720px}
-.mh{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #152840;position:sticky;top:0;background:#091628;z-index:1}
-.mh h3{font-family:'Chakra Petch',monospace;font-size:14px;font-weight:600;color:#818CF8}
-.mx{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:#8098BC;font-size:17px;cursor:pointer;transition:.12s;border:none;background:none}
-.mx:hover{background:rgba(239,68,68,.15);color:#EF4444}
-.mbd{padding:16px 18px}
-.mf{padding:11px 18px;border-top:1px solid #152840;display:flex;justify-content:flex-end;gap:7px;background:#091628;position:sticky;bottom:0}
-/* Creds */
-.creds{background:#070F1D;border:1px solid rgba(79,70,229,.25);border-radius:8px;padding:14px;font-family:'IBM Plex Mono',monospace}
-.cl{font-size:9.5px;color:#3E5878;letter-spacing:.06em;margin-bottom:3px;margin-top:8px}
-.cv{font-size:13px;font-weight:700;color:#818CF8;background:#0A1828;padding:6px 10px;border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;word-break:break-all}
-.cpbtn{padding:2px 8px;border-radius:5px;background:rgba(79,70,229,.2);border:1px solid rgba(79,70,229,.3);color:#818CF8;cursor:pointer;font-size:10px;white-space:nowrap;flex-shrink:0;font-family:'IBM Plex Mono',monospace}
-/* Toast */
-#tc{position:fixed;bottom:18px;right:18px;z-index:500;display:flex;flex-direction:column;gap:7px;pointer-events:none}
-.toast{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:10px;border:1px solid;font-size:13px;font-weight:500;min-width:240px;max-width:340px;pointer-events:all;animation:tin .25s ease;box-shadow:0 8px 24px rgba(0,0,0,.5)}
-@keyframes tin{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
-.ts{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:#10B981}
-.te{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#EF4444}
-.ti{background:rgba(79,70,229,.1);border-color:rgba(79,70,229,.3);color:#818CF8}
-/* Spin */
-.spin{width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:sp .6s linear infinite;display:inline-block;vertical-align:middle}
-@keyframes sp{to{transform:rotate(360deg)}}
-/* Note */
-.note{background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.2);border-radius:8px;padding:10px 12px;font-size:12.5px;color:#818CF8;margin-bottom:14px;line-height:1.6}
-/* Filters */
-.fi{background:#060F1E;border:1px solid #152840;border-radius:8px;padding:7px 11px;font-size:13px;color:#E8F0FF;transition:.13s;font-family:'IBM Plex Sans Arabic',sans-serif}
-.fi:focus{outline:none;border-color:#4F46E5}
-/* skr */
-.skr{height:42px;border-radius:8px;background:linear-gradient(90deg,#0C1E38 25%,#091628 50%,#0C1E38 75%);background-size:400% 100%;animation:sh 1.4s ease infinite;margin-bottom:7px}
-@keyframes sh{0%{background-position:100% 50%}100%{background-position:0 50%}}
-@media(max-width:768px){
-  .sb{
-    display:none;
-    position:fixed;top:0;right:0;width:260px;height:100vh;
-    z-index:9999;box-shadow:-8px 0 40px rgba(0,0,0,.8);
-    flex-direction:column;
-  }
-  .sb.show{display:flex!important}
-  .menu-btn{display:flex!important;align-items:center;justify-content:center;
-    width:36px;height:36px;background:#0C1E38;border:1px solid #152840;
-    border-radius:8px;color:#818CF8;font-size:18px;cursor:pointer;flex-shrink:0}
-  .page{padding:10px}
-  .g4{grid-template-columns:repeat(2,1fr)}
-}
-.menu-btn{display:none}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stc Hail Branch — Strategic Acquisition Proposal</title>
+    <!-- استدعاء Tailwind CSS و FontAwesome للمظهر العصري المستقر -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة Supabase JS الرسمية عبر CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        :root {
+            --stc-purple: #7a22b3;
+            --stc-purple-glow: rgba(122, 34, 179, 0.5);
+            --stc-pink: #ff007f;
+            --space-deep: #04010a;
+            --glass-base: rgba(18, 10, 31, 0.78);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --text-primary: #f3f0f7;
+            --text-muted: #a29bb0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Space Grotesk', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--space-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* تصميم مؤشر الفأرة التفاعلي الفاخر للأجهزة اللوحية والمكتبية */
+        .custom-cursor {
+            width: 26px;
+            height: 26px;
+            border: 1px solid var(--stc-pink);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            display: none;
+        }
+        .custom-cursor-dot {
+            width: 5px;
+            height: 5px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            body { cursor: none; }
+            .custom-cursor, .custom-cursor-dot { display: block; }
+        }
+
+        /* خلفية الفضاء المتحركة للنجوم الكونية */
+        #spaceCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* لوحات الزجاج الذكي الشفاف */
+        .glass-panel {
+            background: var(--glass-base);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(255, 0, 127, 0.25);
+            box-shadow: 0 20px 45px rgba(122, 34, 179, 0.15);
+        }
+
+        /* دوران مداري تجميلي حول الشعار المضيء */
+        .orbit-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px dashed rgba(255, 0, 127, 0.45);
+            border-radius: 50%;
+            animation: spinOrbit 30s infinite linear;
+        }
+        @keyframes spinOrbit {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* أزرار التصفح الفاخرة للتبويبات */
+        .tab-btn {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--stc-pink);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .tab-btn.active::after {
+            width: 60%;
+        }
+        .tab-btn.active {
+            color: #fff;
+            background: rgba(122, 34, 179, 0.25);
+            border-color: var(--stc-purple);
+            box-shadow: 0 0 20px var(--stc-purple-glow);
+        }
+
+        /* انسيابية حركة الانتقال التدريجي السلس للتبويبات */
+        .tab-content {
+            display: none;
+            animation: blurFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .tab-content.active-content {
+            display: block;
+        }
+        @keyframes blurFadeIn {
+            0% { opacity: 0; filter: blur(10px); transform: translateY(15px); }
+            100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+        }
+
+        /* غطاء محاكاة هوية stc للواجهة الزجاجية */
+        .stc-vision-overlay {
+            background: linear-gradient(to bottom, rgba(122,34,179,0.5), rgba(15, 4, 31, 0.95));
+        }
+        
+        /* وميض ونبض النيون الذكي لشعار stc المستقبلي */
+        .neon-glow {
+            text-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px var(--stc-purple);
+            animation: pulseNeon 3s infinite alternate ease-in-out;
+        }
+        @keyframes pulseNeon {
+            0% { opacity: 0.85; }
+            100% { opacity: 1; }
+        }
+
+        /* تفاعل عناصر الملاحة بالخريطة */
+        .map-node {
+            transition: all 0.3s ease;
+        }
+        .map-node:hover {
+            fill: #fff !important;
+            stroke: var(--stc-pink) !important;
+            r: 13px !important;
+            filter: drop-shadow(0 0 12px var(--stc-pink));
+        }
+
+        /* شريط التموضع والتحقق الأمني السفلي الثابت */
+        .status-bar {
+            border-top: 1px solid var(--glass-border);
+            background: rgba(5, 2, 10, 0.96);
+        }
+    </style>
 </head>
-<body>
-<div class="shell">
-  <!-- SIDEBAR -->
-  <aside class="sb" id="sidebar">
-    <div class="sb-brand">
-      <img src="se-logo.png.PNG" alt="SE" style="height:28px;width:auto;object-fit:contain">
-      <div><div class="sb-t1">se</div><div class="sb-t2">System Admin</div></div>
+<body class="overflow-x-hidden">
+
+    <!-- مؤشرات الفأرة الذكية -->
+    <div class="custom-cursor" id="cursorOuter"></div>
+    <div class="custom-cursor-dot" id="cursorInner"></div>
+
+    <!-- محرك رسم السديم والنجوم الفضائية التفاعلية -->
+    <canvas id="spaceCanvas"></canvas>
+
+    <div class="min-h-screen flex flex-col justify-between pb-16">
+        
+        <!-- الهيدر المزدوج الذكي: معلومات أمنية وتبديل اللغة -->
+        <header class="glass-panel sticky top-0 z-50 w-full px-6 py-4 mb-6">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
+                
+                <!-- الشعار التعريفي والهوية والمعلومات الأمنية للمقر -->
+                <div class="flex items-center gap-4">
+                    <div class="orbit-container relative w-12 h-12 flex items-center justify-center shrink-0">
+                        <div class="orbit-ring"></div>
+                        <div class="w-3 h-3 bg-[#ff007f] rounded-full absolute"></div>
+                        <span class="text-white font-black text-xl tracking-tighter relative z-10 neon-glow">stc</span>
+                    </div>
+                    <div>
+                        <span class="confidential-tag text-[9px] text-[#ff007f] tracking-widest font-bold block" id="lbl-classification">STRICTLY CONFIDENTIAL • STC BOARD TIER 1</span>
+                        <h1 class="text-md sm:text-lg font-black text-white" id="lbl-mainTitle">stc Hail Branch — Strategic Acquisition Proposal</h1>
+                    </div>
+                </div>
+
+                <!-- شريط التبويبات الفاخر والأكثر استجابة للهواتف الذكية -->
+                <div class="flex flex-wrap justify-center sm:justify-start gap-1.5 bg-black/40 p-1.5 rounded-xl border border-white/5">
+                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg active" data-tab="overview" id="btn-tab-overview">📊 الملخص التنفيذي</button>
+                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="asset" id="btn-tab-asset">🏢 أصول المعاينة</button>
+                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="location" id="btn-tab-location">📍 الذكاء الجغرافي</button>
+                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="floors" id="btn-tab-floors">🏗️ هيكلة الطوابق</button>
+                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="strategy" id="btn-tab-strategy">⚡ مصفوفة الاستراتيجية</button>
+                </div>
+
+                <!-- اللغات وخارطة النفاذ السريع -->
+                <div class="flex items-center gap-3">
+                    <button id="langToggleBtn" class="px-3.5 py-1.5 rounded-full border border-white/10 text-xs font-bold hover:bg-white/5 transition">English</button>
+                    <a href="admin.html" target="_blank" class="px-4 py-1.5 rounded-full bg-[#7a22b3] text-white text-xs font-bold hover:bg-[#ff007f] hover:shadow-[0_0_15px_#ff007f] transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-sliders"></i> <span id="lbl-adminPortalLink">بوابة الإدارة</span>
+                    </a>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- مساحات التبويبات والمحتويات الديناميكية للداشبورد التفاعلي -->
+        <main id="executiveModeWorkspace" class="max-w-7xl mx-auto px-6 w-full flex-grow space-y-6">
+
+            <!-- TAB 1: OVERVIEW -->
+            <div id="overview" class="tab-content active-content space-y-6">
+                <div class="glass-panel p-8 rounded-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                    <div class="relative z-10 space-y-2">
+                        <span class="text-xs font-bold text-[#ff007f] uppercase tracking-widest block" id="lbl-overviewTag">STRATEGIC ACQUISITION PROPOSAL • HAIL BRANCH ASSET</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight" id="lbl-briefingTitle">عرض مقترح استحواذ استراتيجي: مجمع ومقر فرع stc بمنطقة حائل</h2>
+                        <p class="text-slate-300 text-sm max-w-3xl leading-relaxed" id="lbl-briefingDesc">
+                            مقترح استراتيجي موجه للإدارة العليا لشركة stc لحيازة مجمع متميز بنسبة إنجاز 53% ليكون فرع عمليات رقمي متكامل يخدم منطقة حائل ويسرع التواجد الجغرافي تماشياً مع رؤية 2030 وتجنب أعباء بناء المواقع من الصفر.
+                        </p>
+                    </div>
+                    <div class="glass-panel px-6 py-4 rounded-xl flex flex-col items-end shrink-0 bg-black/40 border-white/10">
+                        <span class="text-[10px] text-slate-400 tracking-wider" id="lbl-financialAsset">إجمالي الاستثمار المقترح (CapEx)</span>
+                        <h3 class="text-2xl font-black text-[#ff007f]" id="disp-price">SAR 26,000,000</h3>
+                        <span class="text-[9px] text-emerald-400 font-bold" id="lbl-justification">توفير تكاليف الرخص الأساسية وحفر التأسيس</span>
+                    </div>
+                </div>
+
+                <!-- بطاقات المؤشرات الاستراتيجية الأربعة -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
+                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardLand">مساحة الأرض الإجمالية</span>
+                        <h4 class="text-2xl font-extrabold text-white" id="disp-landArea">4,104 م²</h4>
+                        <i class="fa-solid fa-vector-square text-white/5 text-5xl absolute bottom-2 left-4"></i>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
+                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardBua">إجمالي مسطحات البناء (BUA)</span>
+                        <h4 class="text-2xl font-extrabold text-white" id="disp-bua">4,165 م²</h4>
+                        <i class="fa-solid fa-cubes text-white/5 text-5xl absolute bottom-2 left-4"></i>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
+                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardProgress">نسبة إنجاز الهيكل والواجهات</span>
+                        <h4 class="text-2xl font-extrabold text-[#ff007f]" id="disp-progress">53%</h4>
+                        <div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
+                            <div id="disp-progressBar" class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full transition-all duration-1000" style="width: 53%;"></div>
+                        </div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
+                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardParking">السعة اللوجستية للمواقف</span>
+                        <h4 class="text-2xl font-extrabold text-emerald-400" id="disp-parking">50 موقف سيارة</h4>
+                        <i class="fa-solid fa-car text-white/5 text-5xl absolute bottom-2 left-4"></i>
+                    </div>
+                </div>
+
+                <!-- مبررات الاستحواذ والتناسق الاستراتيجي -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-xl space-y-4">
+                        <h3 class="text-lg font-bold text-white" id="lbl-fitoutTitle">جدولة الإنجاز والواجهة الخارجية لفرع حائل</h3>
+                        <p class="text-sm text-slate-400" id="lbl-fitoutDesc">
+                            تم الانتهاء بالكامل من الأعمال الإنشائية التأسيسية للمبنى مع تركيب واجهات الكلادينج والزجاج المزدوج الحامي والمانع للتشتت الصوتي، ويجري تجهيز المرافق الداخلية بما يتوافق مع المعايير الفنية والتكنولوجية المخصصة لفرع stc حائل.
+                        </p>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span id="lbl-fitoutStruct">الهيكل الإنشائي العام</span>
+                                    <span>100%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full"><div class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full" style="width: 100%;"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span id="lbl-fitoutClad">الكلادينج والواجهة الزجاجية</span>
+                                    <span>100%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full"><div class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full" style="width: 100%;"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span id="lbl-fitoutInt">التجهيزات والتبريد الداخلي (الحرج)</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full"><div id="disp-fitoutBar" class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full transition-all duration-1000" style="width: 75%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2" id="lbl-strategicValueTitle">القيمة والامتياز الاستثماري الاستراتيجي</h3>
+                            <p class="text-sm text-slate-400 mb-4" id="lbl-strategicValueDesc">
+                                يعيد هذا المشروع توظيف أصل عقاري قائم بما يتطابق مع تطلعات فرع stc حائل للتحول الرقمي وحصص الكفاءة:
+                            </p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-bullseye text-[#ff007f]"></i> <span id="lbl-stratVal1">خدمة كثافة سكانية متنامية بأكثر من 300 ألف نسمة في منطقة حائل.</span></li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-network-wired text-[#7a22b3]"></i> <span id="lbl-stratVal2">بنية جاهزة واصلة لخدمات الألياف البصرية المتطورة والكهرباء والخدمات الأساسية.</span></li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-leaf text-emerald-400"></i> <span id="lbl-stratVal3">استدامة كفاءة الطاقة والموارد المتوافقة تماماً مع معايير كود البناء السعودي لفرع حائل.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: THE ASSET -->
+            <div id="asset" class="tab-content space-y-6">
+                <div class="glass-panel p-6 rounded-xl">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-white" id="lbl-assetReview">تفاصيل أصول العقار والمعاينة البصرية</h2>
+                            <p class="text-sm text-slate-400" id="lbl-assetReviewDesc">استخدم مفتاح التبديل التفاعلي لمقارنة الحالة الراهنة للهيكل المصمم مع تصور دمج هوية stc المضيئة على واجهة فرع حائل الزجاجية الممتدة بطول 52 متراً.</p>
+                        </div>
+                        <div class="inline-flex bg-black/40 p-1.5 rounded-full border border-white/10 shrink-0">
+                            <button id="viewAsIsBtn" class="px-5 py-2 text-xs font-bold rounded-full transition-all duration-300 bg-white text-black">📸 الوضع الحالي (Before)</button>
+                            <button id="viewStcBtn" class="px-5 py-2 text-xs font-bold rounded-full transition-all duration-300 text-slate-300 hover:text-white">✨ التصور المستقبلي (Vision)</button>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full rounded-xl overflow-hidden shadow-2xl group border border-white/10" style="height: 520px;">
+                        <img id="primaryBuildingImg" class="w-full h-full object-cover transition-all duration-700" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200" alt="stc Hail Branch Building">
+                        
+                        <div id="stcVisionOverlay" class="stc-vision-overlay absolute inset-0 opacity-0 pointer-events-none flex flex-col items-center justify-center transition-all duration-700">
+                            <div class="orbit-container relative w-36 h-36 flex items-center justify-center mb-4">
+                                <div class="orbit-ring"></div>
+                                <div class="w-4 h-4 bg-[#ff007f] rounded-full absolute"></div>
+                                <span class="text-white font-black text-6xl tracking-widest neon-glow">stc</span>
+                            </div>
+                            <span class="text-sm text-white/90 font-bold tracking-widest bg-black/50 px-4 py-1.5 rounded-full border border-white/20 shadow-lg" id="lbl-integrationStatus">stc HAIL BRANCH CENTER</span>
+                            <span class="text-xs text-slate-300 mt-2" id="lbl-renderingLabel">نمذجة وتطبيق الهوية البصرية لـ stc على واجهة فرع منطقة حائل الزجاجية بطول 52 م</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- معرض الصور الجانبي للمجمع -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="imageGalleryGrid">
+                    <div class="glass-panel rounded-xl overflow-hidden h-44 relative group border border-white/5">
+                        <img id="galImgNodeA" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=500" alt="stc Workspaces">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-4 flex items-end">
+                            <span class="text-xs font-bold text-white" id="lbl-galA">المساحات المفتوحة لفرع حائل - الطابق الأول (1,654 م²)</span>
+                        </div>
+                    </div>
+                    <div class="glass-panel rounded-xl overflow-hidden h-44 relative group border border-white/5">
+                        <img id="galImgNodeB" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=500" alt="Data Center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-4 flex items-end">
+                            <span class="text-xs font-bold text-white" id="lbl-galB">تجهيزات مركز خوادم فرع حائل والـ Data Center</span>
+                        </div>
+                    </div>
+                    <div class="glass-panel rounded-xl overflow-hidden h-44 relative group border border-white/5">
+                        <img id="galImgNodeC" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=500" alt="stc Showroom">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-4 flex items-end">
+                            <span class="text-xs font-bold text-white" id="lbl-galC">صالات خدمة عملاء فرع حائل - الطابق الأرضي (2,217 م²)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: LOCATION INTELLIGENCE -->
+            <div id="location" class="tab-content space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel p-6 rounded-xl md:col-span-2 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-1" id="lbl-geoMapTitle">خريطة حائل الذكية: حي النقرة وفرع منطقة حائل</h3>
+                            <p class="text-xs text-slate-400 mb-4" id="lbl-geoMapDesc">قم بتمرير مؤشر الفأرة فوق نقاط الملاحة لقياس المزايا والمسافات اللوجستية لفرع حائل المتمركز على شارع سليمان الراجحي بعرض 100م.</p>
+                        </div>
+                        
+                        <div class="relative bg-black/60 border border-white/10 rounded-xl overflow-hidden p-2">
+                            <svg viewBox="0 0 800 500" class="w-full h-auto block">
+                                <defs>
+                                    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#gridPattern)" />
+
+                                <path d="M100,250 L400,250 L700,100 M400,250 L450,400 M400,250 L200,420 M400,250 L650,350" fill="none" stroke="rgba(122, 34, 179, 0.35)" stroke-width="3" stroke-dasharray="6,6" />
+                                
+                                <circle cx="400" cy="250" r="18" class="map-node fill-[#ff007f] stroke-white stroke-[3] shadow-lg cursor-pointer" id="node-center" />
+                                <text x="400" y="222" text-anchor="middle" class="fill-white font-black text-xs">FUTURE STC HAIL BRANCH</text>
+
+                                <circle cx="100" cy="250" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="expressway" />
+                                <text x="100" y="280" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapExpressway">المدخل من الطريق الدائري</text>
+
+                                <circle cx="450" cy="400" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="mosque" />
+                                <text x="450" y="430" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapMosque">جامع الراجحي الكبير</text>
+
+                                <circle cx="200" cy="420" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="danube" />
+                                <text x="200" y="450" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapDanube">مجمعات الدانوب والأسواق</text>
+
+                                <circle cx="700" cy="100" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="street100" />
+                                <text x="700" y="130" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapStreet">شارع الشيخ سليمان الراجحي (100م)</text>
+                            </svg>
+
+                            <div id="telemetryTooltip" class="absolute bottom-4 left-4 right-4 bg-black/95 p-4 rounded-lg border border-[#7a22b3] backdrop-blur-md">
+                                <h4 id="tooltipTitle" class="text-sm font-black text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-satellite-dish text-[#ff007f]"></i> مصفوفة الملاحة والارتباط الجغرافي
+                                </h4>
+                                <p id="tooltipDesc" class="text-xs text-slate-400 mt-1 leading-relaxed">
+                                    مرر الفأرة فوق أي نقطة على الخريطة لقراءة التفاصيل والوصول اللوجستي المباشر من الطريق الدائري.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="glass-panel p-6 rounded-xl">
+                            <h3 class="text-sm font-bold text-[#ff007f] mb-4 uppercase tracking-wider" id="lbl-geoCoords">الموقع والمحور الجغرافي</h3>
+                            <div class="bg-black/30 p-3 rounded-lg border border-white/5 mb-2 font-mono text-xs flex justify-between">
+                                <span class="text-slate-400">District:</span>
+                                <span class="text-white font-bold" id="lbl-distName">حي النقرة - حائل</span>
+                            </div>
+                            <div class="bg-black/30 p-3 rounded-lg border border-white/5 font-mono text-xs flex justify-between">
+                                <span class="text-slate-400">Primary Arterial:</span>
+                                <span class="text-white font-bold" id="lbl-streetName">شارع الراجحي (100 متر)</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-6 rounded-xl space-y-4">
+                            <h3 class="text-sm font-bold text-white" id="lbl-proximityTitle">جاهزية البنية التحتية والشبكة</h3>
+                            <p class="text-xs text-slate-400 leading-relaxed" id="lbl-proximityDesc">
+                                يتمتع موقع فرع حائل بجاهزية كاملة للبنية التحتية الأساسية والخدمات الرقمية؛ حيث واصلت كابلات الألياف البصرية فائقة السرعة، شبكات الكهرباء ذات الجهد العالي الملائمة لعمليات الـ Data Center، أنظمة المياه، والصرف الصحي بالكامل للموقع.
+                            </p>
+                            <a href="https://www.google.com/maps?q=27.4906888,41.6636857" target="_blank" class="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition border border-white/20 text-center block">
+                                <i class="fa-solid fa-map-location-dot mr-1"></i> فتح الموقع في خرائط جوجل الفيدرالية
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: ARCHITECTURE & FLOORS -->
+            <div id="floors" class="tab-content space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="flex flex-col gap-3">
+                        <button class="floor-selector active p-5 glass-panel text-right rounded-xl font-bold flex justify-between items-center border-[#ff007f]" data-floor="ground">
+                            <span>الطابق الأرضي لفرع حائل</span>
+                            <i class="fa-solid fa-chevron-left text-[#ff007f]"></i>
+                        </button>
+                        <button class="floor-selector p-5 glass-panel text-right rounded-xl font-bold flex justify-between items-center text-slate-400" data-floor="first">
+                            <span>الدور الأول لفرع حائل</span>
+                            <i class="fa-solid fa-chevron-left opacity-30"></i>
+                        </button>
+                        <button class="floor-selector p-5 glass-panel text-right rounded-xl font-bold flex justify-between items-center text-slate-400" data-floor="structural">
+                            <span>الهيكلة الكلية لفرع حائل (4 مبانٍ)</span>
+                            <i class="fa-solid fa-chevron-left opacity-30"></i>
+                        </button>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl md:col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 id="floorTitle" class="text-lg font-black text-white">الدور الأرضي لفرع حائل: نظام المساحات المفتوحة</h3>
+                            <span id="floorBadge" class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f] text-[#ff007f] text-xs font-bold rounded-full">Retail & Showroom Area</span>
+                        </div>
+
+                        <div class="relative w-full bg-black/70 border border-white/10 rounded-xl overflow-hidden p-6 flex items-center justify-center" style="height: 300px;">
+                            <div class="grid-line-layer absolute inset-0"></div>
+                            <div class="relative z-10 border border-[#7a22b3]/50 w-4/5 h-4/5 rounded-lg bg-[#7a22b3]/5 flex items-center justify-center text-center">
+                                <span id="floorInteriorMapLabel" class="text-slate-400 text-xs font-bold tracking-widest uppercase px-4">stc Innovation Center & Retail Interface Layout</span>
+                            </div>
+                        </div>
+
+                        <p id="floorDescription" class="text-sm text-slate-400 mt-4 leading-relaxed">
+                            مساحة مفتوحة لفرع حائل ومزودة بزجاج ممتد مخصصة لاستقبال عملاء قطاع الأعمال والشركات الحكومية والخاصة الكبرى، وتجهيز صالة عرض ذكية تحاكي التطور الهيكلي لمنظومات الـ IoT والجيل الخامس والحلول الرقمية لشركة stc.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: STRATEGY & SWOT -->
+            <div id="strategy" class="tab-content space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-emerald-500">
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-shield text-emerald-500"></i> Strengths • نقاط القوة الإنشائية لفرع حائل
+                        </h3>
+                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
+                            <li>موقع زاوية مميز جداً أمام منتزه الأمير سعود والخدمات الحيوية بحائل.</li>
+                            <li>تصميم إداري معاصر مرن وقابل للتعديل والتوافق مع متطلبات stc الفنية.</li>
+                            <li>واجهة عريضة لفرع حائل بطول 52 متراً على شارع رئيسي تبرز الهوية التجارية.</li>
+                        </ul>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-amber-500">
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Weaknesses • الاعتبارات ونطاق الاستكمال لفرع حائل
+                        </h3>
+                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
+                            <li>نسبة الإنجاز الحالية 53% لفرع حائل تتطلب إسناد مقاولين لاستكمال التجهيزات والتشطيبات الداخلية والـ HVAC.</li>
+                        </ul>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-blue-500">
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-blue-500"></i> Opportunities • الفرص والقيمة الرأسمالية لفرع حائل
+                        </h3>
+                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
+                            <li>الاستحواذ في حي النقرة المتسارع تجارياً يضمن تنامياً قوياً لقيمة أصل فرع حائل العقاري على المدى المتوسط والطويل.</li>
+                            <li>الريادة كأول مركز عمليات ومبيعات شامل ومتقدم لفرع شركة stc في منطقة حائل.</li>
+                        </ul>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-rose-500">
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-radiation text-rose-500"></i> Risks • المخاطر والتحديات الجانبية لفرع حائل
+                        </h3>
+                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
+                            <li>تأثر الجدول الزمني للتشغيل الفعلي لفرع حائل في حال تأخر إرساء مناقصات التشطيبات وتجهيز الخوادم.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-white" id="lbl-timelineTitle">خارطة طريق الاستحواذ والمسار التنفيذي لفرع حائل</h3>
+                        <span class="text-xs text-slate-400 font-bold" id="lbl-evaluationRef">مرجع تقييم "سهل / خبراء القيمة" المعتمد: 960026354063</span>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative gap-6">
+                        <div class="absolute top-1/2 left-0 right-0 h-1 bg-white/10 -translate-y-1/2 hidden md:block z-0"></div>
+                        
+                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shadow-[0_0_15px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-check"></i></div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white" id="lbl-tl1">الفحص والتدقيق النافي للجهالة</h4>
+                                <span class="text-[10px] text-slate-400" id="lbl-tl1Sub">مراجعة تقييمات خبراء القيمة وسهل لفرع حائل</span>
+                            </div>
+                        </div>
+                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shadow-[0_0_15px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-check"></i></div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white" id="lbl-tl2">التعاقد ونقل صك الملكية لفرع حائل</h4>
+                                <span class="text-[10px] text-slate-400" id="lbl-tl2Sub">تسهيل كافة الإجراءات ونقل الرخص البلدية</span>
+                            </div>
+                        </div>
+                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
+                            <div class="w-10 h-10 rounded-full bg-[#ff007f] text-white flex items-center justify-center font-bold text-sm shadow-[0_0_15px_#ff007f]"><i class="fa-solid fa-spinner animate-spin"></i></div>
+                            <div>
+                                <h4 class="text-xs font-bold text-[#ff007f]" id="lbl-tl3">التخصيص الفني والداخلي لفرع حائل</h4>
+                                <span class="text-[10px] text-slate-400" id="lbl-tl3Sub">تهيئة غرف الخوادم ومجاري الهواء والشبكات</span>
+                            </div>
+                        </div>
+                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
+                            <div class="w-10 h-10 rounded-full bg-white/10 text-slate-400 flex items-center justify-center font-bold text-sm border border-white/20">4</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-400" id="lbl-tl4">تدشين فرع شركة stc بمنطقة حائل</h4>
+                                <span class="text-[10px] text-slate-400" id="lbl-tl4Sub">الإطلاق التشغيلي لمركز العمليات المتكامل للفرع</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- شريط الحالة الأمني والتنظيمي الفاخر لخدمة مجالس الإدارة ومراجعة البيانات -->
+        <footer class="status-bar fixed bottom-0 left-0 right-0 py-3.5 px-6 z-40 text-xs flex justify-between items-center text-slate-400">
+            <div>
+                System Status: <span class="text-emerald-400 font-bold"><i class="fa-solid fa-circle-check"></i> stc Hail Branch Connected</span>
+            </div>
+            <div class="hidden sm:block">
+                Classification Level: <span class="text-[#ff007f] font-bold">STRICT CONFIDENTIAL • STC BOARD OF DIRECTORS</span>
+            </div>
+            <div>
+                Data Registry: <span id="dataSourceIndicator" class="text-purple-400 font-bold">Connecting...</span>
+            </div>
+        </footer>
+
     </div>
-    <div class="ub" id="ubEl">
-      <div class="ub-av" id="ubAv">—</div>
-      <div style="flex:1;min-width:0"><div class="ub-nm" id="ubNm">جارٍ التحميل</div><div class="ub-rl">Admin</div></div>
-      <div class="odot"></div>
-    </div>
-    <nav class="nav">
-      <div class="ng">الإدارة</div>
-      <button class="ni on" onclick="showPage('users')"><span class="ic">👥</span> إدارة المستخدمين</button>
-      <button class="ni" onclick="showPage('divs')"><span class="ic">🏛️</span> الدوائر</button>
-      <div class="ng">الإعدادات</div>
-      <button class="ni" onclick="showPage('settings')"><span class="ic">⚙️</span> الإعدادات</button>
-      <button class="ni" onclick="showPage('health')"><span class="ic">💡</span> صحة النظام</button>
-    </nav>
-    <div class="sb-foot">
-      <button class="btn-lo" onclick="doLogout()">🚪 خروج</button>
-      <button class="btn-lg" onclick="toggleDir()">EN/ع</button>
-    </div>
-  </aside>
 
-  <!-- MAIN -->
-  <div class="main">
-    <div class="topbar">
-      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-        <div class="tb-ttl" id="pgTitle">إدارة المستخدمين</div>
-      <div class="tb-r">
-        <div><div class="clk-t" id="ct">—</div><div class="clk-d" id="cd"></div></div>
-        <div class="adot"><div class="d"></div><span style="color:#3E5878;font-family:'IBM Plex Mono',monospace;font-size:11px">ADMIN</span></div>
-      </div>
-    </div>
-    <div class="page" id="pageArea">
-      <div style="display:flex;align-items:center;justify-content:center;height:60vh;flex-direction:column;gap:12px">
-        <div class="spin" style="width:36px;height:36px;border-width:3px;color:#4F46E5"></div>
-        <div style="color:#8098BC;font-size:13px" id="loadTxt">جارٍ التحميل...</div>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="tc"></div>
+    <!-- كود جافا سكريبت التفاعلي بالكامل للنجوم وتحميل الصور والترجمة والاتصال بـ Supabase -->
+    <script>
+        // ── تهيئة بيانات بيئة Supabase المرفقة والمباشرة ──
+        const SUPABASE_URL = "https://yhktemaygekjzxwbwjsz.supabase.co"; 
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inloa3RlbWF5Z2Vranp4d2J3anN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3NDI0MjcsImV4cCI6MjA5ODMxODQyN30.KwNq4LxkOM3YYuOaRQ66n0oMSmdojeqejGrFGrXetsw"; 
 
-<script>
-/* ═══ CONFIG ══════════════════════════════════════════════════ */
-const SB_URL = 'https://ekywcrlcjgbjtwnjozov.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVreXdjcmxjamdianR3bmpvem92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4OTg5MzcsImV4cCI6MjA5NzQ3NDkzN30.TQxP2SUjaxSjdsBadmgHIBSVQ5B-YOLkvnl1JwyhISI';
+        let supabaseClient = null;
+        if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
 
-/* ═══ AUTH — reads directly from localStorage ════════════════ */
-function getStoredSession() {
-  try {
-    // Supabase stores session in localStorage with this key pattern
-    const keys = Object.keys(localStorage).filter(k => k.includes('auth-token') || k.includes('supabase'));
-    for(const k of keys) {
-      const val = JSON.parse(localStorage.getItem(k) || 'null');
-      if(val && val.access_token) return val;
-      if(val && val.session && val.session.access_token) return val.session;
-    }
-    return null;
-  } catch(e) { return null; }
-}
+        document.addEventListener('DOMContentLoaded', () => {
 
-/* ═══ API CALL — pure fetch, no Supabase JS ═════════════════ */
-async function api(method, path, body, token) {
-  const sess = getStoredSession();
-  const tk = token || sess?.access_token || '';
-  const res = await fetch(SB_URL + path, {
-    method: method || 'GET',
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + tk,
-      'Content-Type': 'application/json',
-      'Prefer': method === 'POST' ? 'return=representation' : 'return=representation'
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
-  const text = await res.text();
-  try { return JSON.parse(text); } catch(e) { return text; }
-}
+            // 1. حركة مؤشر الفأرة التفاعلي للأجهزة اللوحية والكمبيوتر
+            const cursorOuter = document.getElementById('cursorOuter');
+            const cursorInner = document.getElementById('cursorInner');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursorOuter.style.left = e.clientX + 'px';
+                cursorOuter.style.top = e.clientY + 'px';
+                cursorInner.style.left = e.clientX + 'px';
+                cursorInner.style.top = e.clientY + 'px';
+            });
 
-/* ═══ ROLE LABELS ════════════════════════════════════════════ */
-const RLA = {admin:'مشرف النظام',director:'مدير الإدارة',governance_manager:'مدير الحوكمة',generation_manager:'مدير التوليد',national_grid_manager:'مدير النقل',distribution_manager:'مدير التوزيع',technical_alerts_manager:'مدير التنبيهات',employee:'موظف'};
-const RCO = {admin:'#FCA5A5',director:'#FDE68A',governance_manager:'#C4B5FD',generation_manager:'#FDE68A',national_grid_manager:'#BAE6FD',distribution_manager:'#A7F3D0',technical_alerts_manager:'#FCA5A5',employee:'#8098BC'};
-const RCL = {admin:'rgba(239,68,68,.15)',director:'rgba(212,175,55,.12)',governance_manager:'rgba(124,58,237,.15)',generation_manager:'rgba(245,158,11,.12)',national_grid_manager:'rgba(14,165,233,.12)',distribution_manager:'rgba(16,185,129,.12)',technical_alerts_manager:'rgba(239,68,68,.12)',employee:'rgba(30,58,88,.5)'};
-const DIVS = {governance:{ar:'الحوكمة',color:'#7C3AED',icon:'⚖️'},generation:{ar:'التوليد',color:'#F59E0B',icon:'⚡'},national_grid:{ar:'النقل',color:'#0EA5E9',icon:'🔌'},distribution:{ar:'التوزيع',color:'#10B981',icon:'🏘️'},technical_alerts:{ar:'التنبيهات',color:'#EF4444',icon:'⚠️'}};
-const PORTALS = {admin:'admin.html',director:'department.html',governance_manager:'governance.html',generation_manager:'generation.html',national_grid_manager:'national-grid.html',distribution_manager:'distribution.html',technical_alerts_manager:'technical-alerts.html',employee:'employee.html'};
+            // 2. محرك رسم النجوم وحركتها الكونية بـ Canvas
+            const canvas = document.getElementById('spaceCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
 
-/* ═══ HELPERS ════════════════════════════════════════════════ */
-const esc = s => String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const mv = id => document.getElementById(id)?.value?.trim()||'';
-function toast(msg,type='i',dur=3500){
-  let c=document.getElementById('tc');
-  const el=document.createElement('div');
-  el.className='toast t'+type;
-  el.innerHTML='<span>'+(type==='s'?'✓':type==='e'?'✕':'ℹ')+'</span><span style="flex:1">'+msg+'</span><button style="opacity:.5;cursor:pointer;font-size:14px" onclick="this.parentElement.remove()">×</button>';
-  c.appendChild(el);
-  setTimeout(()=>el.remove(),dur);
-}
-function openModal(html,cls){const bd=document.createElement('div');bd.className='mbg';bd.id='M';bd.innerHTML='<div class="modal '+(cls||'')+'">'+html+'</div>';bd.addEventListener('click',e=>{if(e.target===bd)closeModal();});document.body.appendChild(bd);}
-function closeModal(){document.getElementById('M')?.remove();}
-function toggleDir(){const r=document.documentElement;r.dir=r.dir==='rtl'?'ltr':'rtl';}
+            const starsArray = [];
+            for(let i=0; i<160; i++) {
+                starsArray.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    size: Math.random() * 1.6 + 0.4,
+                    alpha: Math.random() * 0.85 + 0.15,
+                    speed: Math.random() * 0.02 + 0.006
+                });
+            }
 
-/* ═══ CLOCK ══════════════════════════════════════════════════ */
-function startClock(){
-  const days=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-  const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-  function tick(){
-    const n=new Date(),h=n.getHours();
-    const ct=document.getElementById('ct'),cd=document.getElementById('cd');
-    if(ct)ct.textContent=String(h%12||12).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0')+' '+(h<12?'ص':'م');
-    if(cd)cd.textContent=days[n.getDay()]+'، '+n.getDate()+' '+months[n.getMonth()]+' '+n.getFullYear();
-  }
-  tick();setInterval(tick,1000);
-}
+            function animateStars() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#030107';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-/* ═══ LOGOUT ══════════════════════════════════════════════════ */
-async function doLogout(){
-  // Clear all supabase localStorage keys
-  Object.keys(localStorage).filter(k=>k.includes('supabase')||k.includes('sb-')).forEach(k=>localStorage.removeItem(k));
-  location.href='index.html';
-}
+                let gradient = ctx.createRadialGradient(canvas.width*0.25, canvas.height*0.25, 50, canvas.width*0.25, canvas.height*0.25, 450);
+                gradient.addColorStop(0, 'rgba(122, 34, 179, 0.14)');
+                gradient.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(canvas.width*0.25, canvas.height*0.25, 450, 0, Math.PI * 2);
+                ctx.fill();
 
-/* ═══ PAGE NAVIGATION ════════════════════════════════════════ */
-function showPage(name){
-  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('on'));
-  event?.target?.closest('.ni')?.classList.add('on');
-  const titles={users:'إدارة المستخدمين',divs:'الدوائر',settings:'الإعدادات',health:'صحة النظام'};
-  document.getElementById('pgTitle').textContent=titles[name]||name;
-  const area=document.getElementById('pageArea');
-  area.innerHTML='<div class="skr"></div><div class="skr"></div><div class="skr"></div>';
-  if(name==='users') renderUsers();
-  else if(name==='divs') renderDivs();
-  else if(name==='settings') renderSettings();
-  else if(name==='health') renderHealth();
-}
+                starsArray.forEach(star => {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                    ctx.fill();
 
-/* ═══ USERS PAGE ════════════════════════════════════════════ */
-async function renderUsers(){
-  const area=document.getElementById('pageArea');
-  area.innerHTML=
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">'+
-      '<div><h1 style="font-family:\'Chakra Petch\',monospace;font-size:18px;color:#818CF8">👥 إدارة المستخدمين</h1>'+
-      '<div style="font-size:12px;color:#8098BC">أنشئ الحسابات واضبط الأدوار والدوائر</div></div>'+
-      '<button class="btn p" onclick="openCU()">+ إنشاء مستخدم</button>'+
-    '</div>'+
-    '<div class="note">ℹ️ أنشئ المستخدم ← تظهر بيانات الدخول ← أعطها للمستخدم ← يسجّل دخول ويغيّر كلمة المرور</div>'+
-    '<div class="g4" style="margin-bottom:14px">'+
-      '<div class="sc"><div class="sl">الكل</div><div class="sv" id="stAll">—</div></div>'+
-      '<div class="sc"><div class="sl">مدراء</div><div class="sv" id="stMgr">—</div></div>'+
-      '<div class="sc"><div class="sl">موظفون</div><div class="sv" id="stEmp">—</div></div>'+
-      '<div class="sc"><div class="sl">نشطون</div><div class="sv grn" id="stAct">—</div></div>'+
-    '</div>'+
-    '<div class="panel">'+
-      '<div style="padding:10px 12px;border-bottom:1px solid #152840;display:flex;gap:8px;flex-wrap:wrap">'+
-        '<input class="fi" id="uq" placeholder="بحث..." style="min-width:140px">'+
-        '<select class="fi" id="ur">'+
-          '<option value="">كل الأدوار</option>'+
-          Object.entries(RLA).map(function(e){return '<option value="'+e[0]+'">'+e[1]+'</option>';}).join('')+
-        '</select>'+
-        '<button class="btn sm" onclick="loadUsers()">🔄</button>'+
-      '</div>'+
-      '<div id="uList"><div class="skr" style="margin:10px"></div><div class="skr" style="margin:10px"></div></div>'+
-    '</div>';
-  document.getElementById('uq').addEventListener('input',function(){clearTimeout(window._ut);window._ut=setTimeout(loadUsers,300);});
-  document.getElementById('ur').addEventListener('change',loadUsers);
-  loadUsers();
-}
+                    star.alpha += star.speed;
+                    if(star.alpha > 1 || star.alpha < 0.15) {
+                        star.speed = -star.speed;
+                    }
+                });
 
-async function loadUsers(){
-  const el=document.getElementById('uList');
-  if(!el) return;
-  el.innerHTML='<div style="padding:14px;text-align:center;color:#8098BC">جارٍ التحميل...</div>';
-  const q=(document.getElementById('uq')?.value||'').toLowerCase();
-  const r=document.getElementById('ur')?.value||'';
-  let url='/rest/v1/profiles?select=*&order=created_at.desc';
-  if(r) url+='&role=eq.'+encodeURIComponent(r);
-  try{
-    const data=await api('GET',url);
-    if(!Array.isArray(data)) throw new Error(typeof data==='object'?JSON.stringify(data):String(data));
-    const fl=q?data.filter(function(u){return ((u.full_name||'')+(u.full_name_en||'')).toLowerCase().indexOf(q)>-1;}):data;
-    const sa=document.getElementById('stAll'),sm=document.getElementById('stMgr'),se=document.getElementById('stEmp'),sac=document.getElementById('stAct');
-    if(sa)sa.textContent=fl.length;
-    if(sm)sm.textContent=fl.filter(function(u){return u.role&&(u.role.indexOf('manager')>-1||u.role==='director');}).length;
-    if(se)se.textContent=fl.filter(function(u){return u.role==='employee';}).length;
-    if(sac)sac.textContent=fl.filter(function(u){return u.is_active;}).length;
-    if(!fl.length){el.innerHTML='<div style="padding:40px;text-align:center;color:#8098BC">لا مستخدمين — <button class="btn sm p" onclick="openCU()">+ إنشاء أول مستخدم</button></div>';return;}
-    el.innerHTML=fl.map(function(u){
-      const init=(u.full_name||'U').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
-      const clr=RCO[u.role]||'#8098BC';
-      const bg=RCL[u.role]||'rgba(30,58,88,.5)';
-      return '<div class="ur">'+
-        '<div class="ur-av" style="background:'+bg+';color:'+clr+'">'+init+'</div>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div style="font-size:13px;font-weight:600">'+esc(u.full_name||'—')+'</div>'+
-          '<div style="font-size:10.5px;color:#8098BC;font-family:\'IBM Plex Mono\',monospace">'+esc(u.full_name_en||'—')+'</div>'+
-          '<div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap">'+
-            '<span class="badge" style="background:'+bg+';border:1px solid '+clr+'33;color:'+clr+'">'+esc(RLA[u.role]||u.role)+'</span>'+
-            (u.division?'<span class="badge bg">'+esc(u.division)+'</span>':'')+
-            '<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#3E5878">'+
-              '<div style="width:6px;height:6px;border-radius:50%;background:'+(u.is_active?'#10B981':'#3E5878')+'"></div>'+
-              (u.is_active?'نشط':'معطّل')+
-            '</span>'+
-          '</div>'+
-        '</div>'+
-        '<div style="display:flex;gap:4px;flex-shrink:0">'+
-          '<button class="btn sm" onclick="openEU(\''+u.id+'\')">تعديل</button>'+
-          '<button class="btn sm" onclick="openUC(\''+u.id+'\',\''+esc(u.full_name||'')+'\')">🔑</button>'+
-          '<button class="btn sm d" onclick="toggleU(\''+u.id+'\','+u.is_active+')">'+(u.is_active?'تعطيل':'تفعيل')+'</button>'+
-        '</div>'+
-      '</div>';
-    }).join('');
-  }catch(e){
-    el.innerHTML='<div style="padding:20px;text-align:center">'+
-      '<div style="color:#EF4444;margin-bottom:8px">'+esc(e.message)+'</div>'+
-      '<button class="btn sm" onclick="loadUsers()">إعادة المحاولة</button>'+
-      '</div>';
-  }
-}
+                requestAnimationFrame(animateStars);
+            }
+            animateStars();
 
-/* ═══ CREATE USER ════════════════════════════════════════════ */
-function openCU(){
-  openModal(
-    '<div class="mh"><h3>👤 إنشاء مستخدم جديد</h3><button class="mx" onclick="closeModal()">×</button></div>'+
-    '<div class="mbd">'+
-      '<div class="note">سيُنشأ الحساب ← احفظ بيانات الدخول ← أعطها للمستخدم</div>'+
-      '<div class="fg">'+
-        '<div class="field ff"><label>الاسم الكامل (عربي) *</label><input id="nu_n" placeholder="سليمان الخطيب"></div>'+
-        '<div class="field"><label>الاسم (إنجليزي)</label><input id="nu_ne" placeholder="Sulaiman Alkhateeb"></div>'+
-        '<div class="field"><label>البريد الإلكتروني *</label><input type="email" id="nu_em" placeholder="name@se.com.sa"></div>'+
-        '<div class="field ff">'+
-          '<label>كلمة المرور *</label>'+
-          '<div style="display:flex;gap:7px">'+
-            '<input type="text" id="nu_pw" placeholder="كلمة مرور قوية...">'+
-            '<button class="btn sm" onclick="genPW()">🔀 توليد</button>'+
-          '</div>'+
-        '</div>'+
-        '<div class="field"><label>الدور *</label>'+
-          '<select id="nu_rl" onchange="handleRC()">'+
-            '<option value="">اختر...</option>'+
-            Object.entries(RLA).map(function(e){return '<option value="'+e[0]+'">'+e[1]+'</option>';}).join('')+
-          '</select>'+
-        '</div>'+
-        '<div class="field" id="nu_divF" style="display:none"><label>الدائرة</label>'+
-          '<select id="nu_dv">'+
-            '<option value="">—</option>'+
-            Object.entries(DIVS).map(function(e){return '<option value="'+e[0]+'">'+e[1].icon+' '+e[1].ar+'</option>';}).join('')+
-          '</select>'+
-        '</div>'+
-        '<div class="field"><label>المسمى الوظيفي (عربي)</label><input id="nu_tt" placeholder="مدير دائرة..."></div>'+
-        '<div class="field"><label>المسمى الوظيفي (إنجليزي)</label><input id="nu_te" placeholder="Manager..."></div>'+
-      '</div>'+
-    '</div>'+
-    '<div class="mf"><button class="btn" onclick="closeModal()">إلغاء</button>'+
-    '<button class="btn p" id="createBtn" onclick="createUser()">إنشاء الحساب</button></div>',
-    'w'
-  );
-  genPW();
-}
+            // 3. نظام الترجمة المتقن (عربي / إنجليزي)
+            let currentLang = 'ar';
+            const dict = {
+                ar: {
+                    mainTitle: "stc Hail Branch — Strategic Acquisition Proposal",
+                    classification: "سرية تامة • فئة الحماية والموثوقية لمجلس الإدارة",
+                    adminPortalLink: "بوابة الإدارة",
+                    overviewTag: "STRATEGIC ACQUISITION PROPOSAL • HAIL BRANCH ASSET",
+                    briefingTitle: "عرض مقترح استحواذ استراتيجي: مجمع ومقر فرع stc بمنطقة حائل",
+                    briefingDesc: "مقترح استراتيجي موجه للإدارة العليا لشركة stc لحيازة مجمع متميز بنسبة إنجاز 53% ليكون فرع عمليات رقمي متكامل يخدم منطقة حائل ويسرع التواجد الجغرافي تماشياً مع رؤية 2030 وتجنب أعباء بناء المواقع من الصفر.",
+                    financialAsset: "إجمالي الاستثمار المقترح (CapEx)",
+                    justification: "توفير تكاليف الرخص الأساسية وحفر التأسيس",
+                    cardLand: "مساحة الأرض الإجمالية",
+                    cardBua: "إجمالي مسطحات البناء (BUA)",
+                    cardProgress: "نسبة إنجاز الهيكل والواجهات",
+                    cardParking: "السعة اللوجستية للمواقف",
+                    accelerationTitle: "سرعة الإطلاق واختصار الوقت",
+                    accelerationDesc: "الاستحواذ على أصل مكتمل بنسبة 53% لفرع حائل يمثل الخيار الاستراتيجي الأمثل؛ فهو يجمع بين اختصار الزمن (مقارنة بالبناء والترخيص من الصفر والذي يستغرق 12-18 شهراً إضافية) وبين المرونة المطلقة في تعديل وتخصيص الفضاء المعماري الداخلي ليوافق تماماً التصاميم التقنية لمراكز حوسبة خوادم stc.",
+                    accPhase1: "الخرسانة والهيكل",
+                    accPhase1St: "مكتمل 100%",
+                    accPhase2: "التخصيص التقني",
+                    accPhase2St: "مرن / متاح",
+                    accPhase3: "مخاطر إنشائية",
+                    accPhase3St: "شبه منعدمة",
+                    strategicValueTitle: "القيمة والامتياز الاستثماري الاستراتيجي",
+                    strategicValueDesc: "يعيد هذا المشروع توظيف أصل عقاري قائم بما يتطابق مع تطلعات فرع stc حائل للتحول الرقمي وحصص الكفاءة:",
+                    stratVal1: "خدمة كثافة سكانية متنامية بأكثر من 300 ألف نسمة في منطقة حائل.",
+                    stratVal2: "بنية جاهزة واصلة لخدمات الألياف البصرية المتطورة والكهرباء والخدمات الأساسية.",
+                    stratVal3: "استدامة كفاءة الطاقة والموارد المتوافقة تماماً مع معايير كود البناء السعودي لفرع حائل.",
+                    assetReview: "تفاصيل أصول العقار والمعاينة البصرية",
+                    assetReviewDesc: "استخدم مفتاح التبديل التفاعلي لمقارنة الحالة الراهنة للهيكل المصمم مع تصور دمج هوية stc المضيئة على واجهة فرع حائل الزجاجية الممتدة بطول 52 متراً.",
+                    integrationStatus: "فرع شركة STC المطور بمنطقة حائل",
+                    renderingLabel: "نمذجة وتطبيق الهوية البصرية لـ stc على واجهة فرع منطقة حائل الزجاجية بطول 52 م",
+                    galA: "المساحات المفتوحة لفرع حائل - الطابق الأول (1,654 م²)",
+                    galB: "تجهيزات مركز خوادم فرع حائل والـ Data Center",
+                    galC: "صالات خدمة عملاء فرع حائل - الطابق الأرضي (2,217 م²)",
+                    geoMapTitle: "خريطة حائل الذكية: حي النقرة وفرع منطقة حائل",
+                    geoMapDesc: "قم بتمرير مؤشر الفأرة فوق نقاط الملاحة لقياس المزايا والمسافات اللوجستية لفرع حائل المتمركز على شارع سليمان الراجحي بعرض 100م.",
+                    geoCoords: "الموقع والمحور الجغرافي",
+                    distName: "حي النقرة - حائل",
+                    streetName: "شارع الراجحي (100 متر)",
+                    proximityTitle: "جاهزية البنية التحتية والشبكة",
+                    proximityDesc: "يتمتع الموقع بجاهزية كاملة للبنية التحتية الأساسية والخدمات الرقمية؛ حيث واصلت كابلات الألياف البصرية فائقة السرعة، شبكات الكهرباء ذات الجهد العالي الملائمة لعمليات الـ Data Center، أنظمة المياه، والصرف الصحي بالكامل للموقع لخدمة فرع حائل.",
+                    timelineTitle: "خارطة طريق الاستحواذ والمسار التنفيذي لفرع حائل",
+                    evaluationRef: "مرجع تقييم \"سهل / خبراء القيمة\" المعتمد: 960026354063",
+                    fitoutTitle: "جدولة الإنجاز والواجهة الخارجية لفرع حائل",
+                    fitoutDesc: "تم الانتهاء بالكامل من الأعمال الإنشائية التأسيسية للمبنى مع تركيب واجهات الكلادينج والزجاج المزدوج الحامي والمانع للتشتت الصوتي، ويجري تجهيز المرافق الداخلية بما يتوافق مع المعايير الفنية والتكنولوجية المخصصة لفرع stc حائل.",
+                    fitoutStruct: "الهيكل الإنشائي العام",
+                    fitoutClad: "الكلادينج والواجهة الزجاجية",
+                    fitoutInt: "التجهيزات والتبريد الداخلي (الحرج)"
+                },
+                en: {
+                    mainTitle: "stc Hail Branch — Strategic Acquisition Proposal",
+                    classification: "STRICTLY CONFIDENTIAL • STC BOARD TIER 1",
+                    adminPortalLink: "Admin Portal",
+                    overviewTag: "STRATEGIC ACQUISITION PROPOSAL • HAIL BRANCH ASSET",
+                    briefingTitle: "Strategic Acquisition Proposal: stc Hail Branch & Complex",
+                    briefingDesc: "A technical feasibility evaluation prepared exclusively for the stc Executive Committee, examining the strategic advantages of acquiring the premier commercial structure in Hail completed up to 53% to act as stc Hail Branch, avoiding Greenfield building risks.",
+                    financialAsset: "Total Proposed CapEx Budget",
+                    justification: "Avoids basic excavation, structural licensing, & permit barriers",
+                    cardLand: "Total Surface Land Area",
+                    cardBua: "Total Built-Up Area (BUA)",
+                    cardProgress: "Structural Cladding & Skeletal Progress",
+                    cardParking: "Allocated Parking Slot Capacity",
+                    accelerationTitle: "Speed-to-Market Engineering Leverage",
+                    accelerationDesc: "Acquiring a 53% completed structural asset represents the ultimate strategic shortcut for Hail Branch, shortening the conventional commercial project lifecycle by 12-18 months while maintaining absolute flexibility to design internal computing arrays and telecom cooling conduits.",
+                    accPhase1: "Concrete Skeleton",
+                    accPhase1St: "100% Complete",
+                    accPhase2: "Data Center Ready",
+                    accPhase2St: "Fully Adaptable",
+                    accPhase3: "Skeletal Risk",
+                    accPhase3St: "Negligible",
+                    strategicValueTitle: "Executive Value & Provincial Strategic Synergy",
+                    strategicValueDesc: "The facility successfully re-engineers a premium local property to align with stc Hail Branch's digital transformation agenda & Vision 2030 targets:",
+                    stratVal1: "Serving an expanding base of over 300,000 residents in Hail region.",
+                    stratVal2: "Directly connected to high-performance fiber networks and resilient municipal power grids.",
+                    stratVal3: "Energy efficient asset architecture compliant with the rigorous Saudi Building Code for Hail Branch.",
+                    assetReview: "Asset Visual Verification & Rendering Sim",
+                    assetReviewDesc: "Toggle below to compare the current structural as-is shell state with stc's high-tech dynamic illuminated facade design stretching across 52 meters.",
+                    integrationStatus: "stc HAIL BRANCH CENTER",
+                    renderingLabel: "Conceptual stc branding layout modeled onto the 52m glass facade of Hail Branch",
+                    galA: "Open Layout Workspace Area of Hail Branch (1,654 SQM)",
+                    galB: "Server Array Space & Computing Enclosures of Hail Branch",
+                    galC: "Customer Interaction Area of Hail Branch (2,217 SQM)",
+                    geoMapTitle: "Nuqrah District Spatial Intelligence Grid: Hail Branch",
+                    geoMapDesc: "Hover over the strategic nodes to query logistic travel times and distances from the site located on the 100m Al-Rajhi arterial expressway.",
+                    geoCoords: "Geographic Coordinates",
+                    distName: "Nuqrah District - Hail",
+                    streetName: "Sheikh Al-Rajhi St (100m Width)",
+                    proximityTitle: "Infrastructure Integrity & Fiber Presence",
+                    proximityDesc: "The asset is fully supported by municipal service lines; including dedicated telecom fiber bundles, redundant electrical feeds suited for high-density compute, and state-of-the-art utility loops to serve Hail Branch.",
+                    timelineTitle: "Acquisition Roadmap & Action Plan for Hail Branch",
+                    evaluationRef: "Evaluation Reference (Sahl / Khubara'a Al-Qeema): 960026354063",
+                    fitoutTitle: "Completion Schedule & Dynamic Envelope of Hail Branch",
+                    fitoutDesc: "The core reinforced skeleton is fully complete, with dual-performance performance acoustic insulation glazing installed. Final internal mechanical frameworks are in advanced progress to meet strict stc design standards.",
+                    fitoutStruct: "Reinforced Skeletal Skeleton",
+                    fitoutClad: "Engineered External Metal Cladding & Double-Glazing",
+                    fitoutInt: "Internal Mechanical Systems & Critical Cooling"
+                }
+            };
 
-function handleRC(){
-  const r=mv('nu_rl');
-  const needDiv=['governance_manager','generation_manager','national_grid_manager','distribution_manager','technical_alerts_manager','employee'].indexOf(r)>-1;
-  const f=document.getElementById('nu_divF');
-  if(f)f.style.display=needDiv?'block':'none';
-  const autoMap={governance_manager:'governance',generation_manager:'generation',national_grid_manager:'national_grid',distribution_manager:'distribution',technical_alerts_manager:'technical_alerts'};
-  const ad=autoMap[r];
-  if(ad){const d=document.getElementById('nu_dv');if(d)d.value=ad;}
-}
+            const langToggleBtn = document.getElementById('langToggleBtn');
+            function toggleLanguage() {
+                currentLang = currentLang === 'ar' ? 'en' : 'ar';
+                document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+                langToggleBtn.innerText = currentLang === 'ar' ? 'English' : 'العربية';
 
-function genPW(){
-  const ch='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#$!';
-  let p='';for(let i=0;i<10;i++)p+=ch[Math.floor(Math.random()*ch.length)];
-  const el=document.getElementById('nu_pw');if(el){el.value=p;navigator.clipboard?.writeText(p).catch(function(){});}
-}
+                for(let key in dict[currentLang]) {
+                    const node = document.getElementById(`lbl-${key}`);
+                    if(node) node.innerText = dict[currentLang][key];
+                }
 
-async function createUser(){
-  const name=mv('nu_n'),email=mv('nu_em'),pass=mv('nu_pw'),role=mv('nu_rl');
-  if(!name||!email||!pass||!role){toast('يرجى تعبئة الحقول المطلوبة','e');return;}
-  const btn=document.getElementById('createBtn');
-  if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> جارٍ الإنشاء...';}
-  try{
-    // Sign up via Supabase Auth REST API
-    const authRes=await fetch(SB_URL+'/auth/v1/signup',{
-      method:'POST',
-      headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,password:pass,data:{full_name:name,role:role}})
-    });
-    const authData=await authRes.json();
-    if(authData.error||authData.msg){throw new Error(authData.error_description||authData.msg||authData.error||'فشل إنشاء الحساب');}
-    const uid=authData.id||authData.user?.id;
-    if(uid){
-      const sess=getStoredSession();
-      const tk=sess?.access_token||'';
-      await fetch(SB_URL+'/rest/v1/profiles?id=eq.'+uid,{
-        method:'PATCH',
-        headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tk,'Content-Type':'application/json','Prefer':'return=minimal'},
-        body:JSON.stringify({full_name:name,full_name_en:mv('nu_ne')||null,role:role,division:mv('nu_dv')||null,job_title:mv('nu_tt')||null,job_title_en:mv('nu_te')||null,is_active:true})
-      });
-    }
-    closeModal();
-    showCreds(name,email,pass,RLA[role]||role);
-    loadUsers();
-  }catch(e){
-    toast('فشل: '+e.message,'e');
-    if(btn){btn.disabled=false;btn.innerHTML='إنشاء الحساب';}
-    // Show manual fallback
-    if(e.message&&e.message.indexOf('already')>-1){toast('هذا الإيميل مسجّل مسبقاً','e');}
-    else{closeModal();showManual(name,email,pass,role);}
-  }
-}
+                document.getElementById('txt-mapExpressway').innerText = currentLang === 'ar' ? 'المدخل من الطريق الدائري' : 'Access from Expressway';
+                document.getElementById('txt-mapMosque').innerText = currentLang === 'ar' ? 'جامعة الراجحي الكبيرة' : 'Al-Rajhi Mosque';
+                document.getElementById('txt-mapDanube').innerText = currentLang === 'ar' ? 'مجمعات الدانوب والأسواق' : 'Danube Retail Center';
+                document.getElementById('txt-mapStreet').innerText = currentLang === 'ar' ? 'شارع الشيخ سليمان الراجحي (100م)' : 'Sheikh Al-Rajhi St (100m)';
+            }
+            langToggleBtn.addEventListener('click', toggleLanguage);
 
-function showCreds(name,email,pass,role){
-  openModal(
-    '<div class="mh"><h3 style="color:#10B981">✓ تم إنشاء الحساب!</h3><button class="mx" onclick="closeModal()">×</button></div>'+
-    '<div class="mbd">'+
-      '<p style="font-size:13px;color:#8098BC;margin-bottom:12px">أعطِ هذه البيانات للمستخدم وطلب منه تغيير كلمة المرور.</p>'+
-      '<div class="creds">'+
-        '<div class="cl">الاسم</div><div class="cv">'+esc(name)+'</div>'+
-        '<div class="cl">الدور</div><div class="cv">'+esc(role)+'</div>'+
-        '<div class="cl">رابط الدخول</div>'+
-        '<div class="cv"><span>https://sulaimanothjp-stack.github.io/OE-Department-/index.html</span><button class="cpbtn" onclick="copyT(\'https://sulaimanothjp-stack.github.io/OE-Department-/index.html\')">نسخ</button></div>'+
-        '<div class="cl">البريد الإلكتروني</div>'+
-        '<div class="cv"><span>'+esc(email)+'</span><button class="cpbtn" onclick="copyT(\''+esc(email)+'\')">نسخ</button></div>'+
-        '<div class="cl">كلمة المرور المؤقتة</div>'+
-        '<div class="cv"><span>'+esc(pass)+'</span><button class="cpbtn" onclick="copyT(\''+esc(pass)+'\')">نسخ</button></div>'+
-      '</div>'+
-      '<div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:9px;font-size:12px;color:#FCD34D;margin-top:10px">⚠️ يجب تغيير كلمة المرور عند أول دخول</div>'+
-    '</div>'+
-    '<div class="mf">'+
-      '<button class="btn" onclick="printCreds(\''+esc(name)+'\',\''+esc(email)+'\',\''+esc(pass)+'\',\''+esc(role)+'\')">🖨️ طباعة</button>'+
-      '<button class="btn p" onclick="closeModal()">تم</button>'+
-    '</div>','w');
-}
 
-function showManual(name,email,pass,role){
-  openModal(
-    '<div class="mh"><h3 style="color:#F59E0B">⚠️ أنشئ المستخدم يدوياً</h3><button class="mx" onclick="closeModal()">×</button></div>'+
-    '<div class="mbd">'+
-      '<ol style="font-size:13px;line-height:2;color:#8098BC;padding-right:18px;margin-bottom:12px">'+
-        '<li>روح <strong style="color:#818CF8">Supabase → Authentication → Users → Add user</strong></li>'+
-        '<li>أدخل الإيميل وكلمة المرور أدناه</li>'+
-        '<li>روح <strong style="color:#818CF8">Table Editor → profiles</strong> → عدّل role و division و full_name</li>'+
-      '</ol>'+
-      '<div class="creds">'+
-        '<div class="cl">الاسم</div><div class="cv">'+esc(name)+'</div>'+
-        '<div class="cl">الدور (في جدول profiles)</div><div class="cv">'+esc(role)+'</div>'+
-        '<div class="cl">البريد</div><div class="cv"><span>'+esc(email)+'</span><button class="cpbtn" onclick="copyT(\''+esc(email)+'\')">نسخ</button></div>'+
-        '<div class="cl">كلمة المرور</div><div class="cv"><span>'+esc(pass)+'</span><button class="cpbtn" onclick="copyT(\''+esc(pass)+'\')">نسخ</button></div>'+
-      '</div>'+
-      '<div style="background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.2);border-radius:8px;padding:9px;font-size:12px;color:#818CF8;margin-top:10px">'+
-        '💡 لتفادي هذا: Supabase → Auth → Settings → <strong>Disable email confirmations</strong>'+
-      '</div>'+
-    '</div>'+
-    '<div class="mf">'+
-      '<button class="btn" onclick="window.open(\'https://supabase.com/dashboard/project/ekywcrlcjgbjtwnjozov/auth/users\',\'_blank\')">🔗 Supabase</button>'+
-      '<button class="btn p" onclick="closeModal()">فهمت</button>'+
-    '</div>','w');
-}
+            // 4. آلية جلب البيانات (Supabase مع Fallback التلقائي لـ LocalStorage)
+            const dataIndicator = document.getElementById('dataSourceIndicator');
 
-/* ═══ EDIT USER ═══════════════════════════════════════════════ */
-async function openEU(id){
-  const data=await api('GET','/rest/v1/profiles?id=eq.'+id+'&select=*');
-  const u=Array.isArray(data)?data[0]:null;
-  if(!u){toast('خطأ في جلب البيانات','e');return;}
-  openModal(
-    '<div class="mh"><h3>تعديل — '+esc(u.full_name||'')+'</h3><button class="mx" onclick="closeModal()">×</button></div>'+
-    '<div class="mbd"><div class="fg">'+
-      '<div class="field"><label>الاسم (عربي)</label><input id="eu_n" value="'+esc(u.full_name||'')+'"></div>'+
-      '<div class="field"><label>الاسم (إنجليزي)</label><input id="eu_ne" value="'+esc(u.full_name_en||'')+'"></div>'+
-      '<div class="field"><label>الدور</label><select id="eu_rl">'+
-        Object.entries(RLA).map(function(e){return '<option value="'+e[0]+'"'+(u.role===e[0]?' selected':'')+'>'+e[1]+'</option>';}).join('')+
-      '</select></div>'+
-      '<div class="field"><label>الدائرة</label><select id="eu_dv">'+
-        '<option value="">—</option>'+
-        Object.entries(DIVS).map(function(e){return '<option value="'+e[0]+'"'+(u.division===e[0]?' selected':'')+'>'+e[1].icon+' '+e[1].ar+'</option>';}).join('')+
-      '</select></div>'+
-      '<div class="field"><label>المسمى (عربي)</label><input id="eu_tt" value="'+esc(u.job_title||'')+'"></div>'+
-      '<div class="field"><label>المسمى (إنجليزي)</label><input id="eu_te" value="'+esc(u.job_title_en||'')+'"></div>'+
-    '</div></div>'+
-    '<div class="mf"><button class="btn" onclick="closeModal()">إلغاء</button>'+
-    '<button class="btn p" onclick="saveEU(\''+id+'\')">حفظ</button></div>','w');
-}
+            async function loadDashboardData() {
+                if (supabaseClient) {
+                    try {
+                        dataIndicator.innerText = "Supabase Cloud Syncing...";
+                        let { data, error } = await supabaseClient
+                            .from('stc_hail_branch')
+                            .select('*')
+                            .eq('id', 1)
+                            .single();
+                        
+                        if (data) {
+                            applyDataToUI(data);
+                            dataIndicator.innerText = "Supabase Cloud Active";
+                            dataIndicator.style.color = "#00ffaa";
+                            return;
+                        }
+                    } catch (e) {
+                        console.log("Supabase error, falling back to LocalStorage.");
+                    }
+                }
+                
+                // Fallback إلى LocalStorage
+                const saved = JSON.parse(localStorage.getItem('stc_dashboard_data_branch_v6'));
+                if (saved) {
+                    applyDataToUI(saved);
+                    dataIndicator.innerText = "LocalStorage Native Schema";
+                    dataIndicator.style.color = "#ff007f";
+                } else {
+                    dataIndicator.innerText = "Default Hardcoded Schema";
+                }
+            }
 
-async function saveEU(id){
-  const sess=getStoredSession();
-  try{
-    const res=await fetch(SB_URL+'/rest/v1/profiles?id=eq.'+id,{
-      method:'PATCH',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+(sess?.access_token||''),'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({full_name:mv('eu_n'),full_name_en:mv('eu_ne')||null,role:mv('eu_rl'),division:mv('eu_dv')||null,job_title:mv('eu_tt')||null,job_title_en:mv('eu_te')||null})
-    });
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    toast('تم الحفظ ✓','s');closeModal();loadUsers();
-  }catch(e){toast('خطأ: '+e.message,'e');}
-}
+            function applyDataToUI(saved) {
+                document.getElementById('disp-price').innerText = `SAR ${parseInt(saved.price.replace(/,/g, '')).toLocaleString()}`;
+                document.getElementById('disp-landArea').innerText = `${parseInt(saved.landarea || saved.landArea).toLocaleString()} م²`;
+                document.getElementById('disp-bua').innerText = `${parseInt(saved.bua).toLocaleString()} م²`;
+                document.getElementById('disp-progress').innerText = `${saved.progress}%`;
+                document.getElementById('disp-progressBar').style.width = `${saved.progress}%`;
+                document.getElementById('disp-parking').innerText = `${saved.parking} موقف سيارة`;
+                document.getElementById('disp-fitoutBar').style.width = `${saved.fitout}%`;
 
-async function toggleU(id,isActive){
-  const sess=getStoredSession();
-  await fetch(SB_URL+'/rest/v1/profiles?id=eq.'+id,{
-    method:'PATCH',
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+(sess?.access_token||''),'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify({is_active:!isActive})
-  });
-  toast(isActive?'تم التعطيل':'تم التفعيل','s');
-  loadUsers();
-}
+                // مزامنة الصور
+                if (saved.img_current) document.getElementById('primaryBuildingImg').src = saved.img_current;
+                if (saved.img_gala) document.getElementById('galImgNodeA').src = saved.img_gala;
+            }
 
-function openUC(id,name){
-  openModal(
-    '<div class="mh"><h3>🔑 '+esc(name)+'</h3><button class="mx" onclick="closeModal()">×</button></div>'+
-    '<div class="mbd">'+
-      '<div class="creds">'+
-        '<div class="cl">رابط الدخول</div>'+
-        '<div class="cv"><span style="font-size:11px">https://sulaimanothjp-stack.github.io/OE-Department-/index.html</span><button class="cpbtn" onclick="copyT(\'https://sulaimanothjp-stack.github.io/OE-Department-/index.html\')">نسخ</button></div>'+
-        '<div class="cl">الإيميل</div>'+
-        '<div class="cv">من Supabase → Auth → Users</div>'+
-      '</div>'+
-      '<button class="btn sm" style="margin-top:10px" onclick="window.open(\'https://supabase.com/dashboard/project/ekywcrlcjgbjtwnjozov/auth/users\',\'_blank\')">🔗 فتح Supabase Auth</button>'+
-    '</div>'+
-    '<div class="mf"><button class="btn" onclick="closeModal()">إغلاق</button></div>');
-}
+            // 5. استماع لحظي للتغييرات (Realtime Sync) لضمان التحديث بدون تحديث الصفحة
+            if (supabaseClient) {
+                supabaseClient
+                    .channel('schema-db-changes')
+                    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stc_hail_branch' }, payload => {
+                        applyDataToUI(payload.new);
+                    })
+                    .subscribe();
+            }
 
-/* ═══ DIVS PAGE ══════════════════════════════════════════════ */
-async function renderDivs(){
-  const area=document.getElementById('pageArea');
-  area.innerHTML='<h1 style="font-family:\'Chakra Petch\',monospace;font-size:18px;color:#818CF8;margin-bottom:14px">🏛️ الدوائر</h1><div class="g4" id="divGrid"><div class="skr"></div><div class="skr"></div><div class="skr"></div><div class="skr"></div><div class="skr"></div></div>';
-  try{
-    const data=await api('GET','/rest/v1/profiles?select=*');
-    const grid=document.getElementById('divGrid');
-    if(!grid)return;
-    grid.innerHTML=Object.entries(DIVS).map(function(e){
-      const code=e[0],cfg=e[1];
-      const mgr=Array.isArray(data)?data.find(function(p){return p.division===code&&p.role&&p.role.indexOf('manager')>-1;}):null;
-      const cnt=Array.isArray(data)?data.filter(function(p){return p.division===code;}).length:0;
-      return '<div class="sc" style="border-color:'+cfg.color+'22">'+
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">'+
-          '<div style="font-size:24px">'+cfg.icon+'</div>'+
-          '<div><div style="font-weight:700;font-size:13px">'+cfg.ar+'</div>'+
-          '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:'+cfg.color+'">'+code+'</div></div>'+
-        '</div>'+
-        '<div style="padding:6px 0;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between">'+
-          '<span style="font-size:12px;color:#8098BC">المدير</span>'+
-          '<span style="font-size:12px;font-weight:600">'+(mgr?esc(mgr.full_name):'غير محدد')+'</span>'+
-        '</div>'+
-        '<div style="padding:6px 0;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between">'+
-          '<span style="font-size:12px;color:#8098BC">الأعضاء</span>'+
-          '<span class="badge bg">'+cnt+' عضو</span>'+
-        '</div>'+
-        '<a href="'+(code==='national_grid'?'national-grid':code==='technical_alerts'?'technical-alerts':code)+'.html" class="btn sm" style="width:100%;margin-top:8px;justify-content:center;color:'+cfg.color+';border-color:'+cfg.color+'33">فتح البورتال ←</a>'+
-      '</div>';
-    }).join('');
-  }catch(e){document.getElementById('divGrid').innerHTML='<div style="color:#EF4444">'+esc(e.message)+'</div>';}
-}
+            // 6. تفعيل تصفح التبويبات (Tabs Navigation)
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
 
-/* ═══ SETTINGS ═══════════════════════════════════════════════ */
-function renderSettings(){
-  const area=document.getElementById('pageArea');
-  area.innerHTML=
-    '<h1 style="font-family:\'Chakra Petch\',monospace;font-size:18px;color:#818CF8;margin-bottom:14px">⚙️ الإعدادات</h1>'+
-    '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">'+
-      '<div class="panel">'+
-        '<div class="ph"><h3>🔐 تغيير كلمة المرور</h3></div>'+
-        '<div style="padding:14px">'+
-          '<div class="field"><label>كلمة المرور الجديدة</label>'+
-            '<div style="display:flex;gap:7px">'+
-              '<input type="text" id="cp_new" placeholder="كلمة مرور جديدة..." style="flex:1;background:#060F1E;border:1px solid #152840;color:#E8F0FF;border-radius:7px;padding:8px 11px;font-size:13.5px">'+
-              '<button class="btn sm" onclick="genCP()">🔀</button>'+
-            '</div>'+
-          '</div>'+
-          '<div id="cp_show" style="background:#070F1D;border:1px solid rgba(79,70,229,.25);border-radius:7px;padding:10px;font-family:\'IBM Plex Mono\',monospace;font-size:14px;font-weight:700;color:#818CF8;margin-bottom:10px;display:none"></div>'+
-          '<button class="btn p" onclick="changePass()">حفظ كلمة المرور</button>'+
-          '<p style="font-size:11.5px;color:#3E5878;margin-top:8px">ستُسجَّل خارجاً بعد التغيير</p>'+
-        '</div>'+
-      '</div>'+
-      '<div class="panel">'+
-        '<div class="ph"><h3>✉️ تغيير البريد</h3></div>'+
-        '<div style="padding:14px">'+
-          '<div style="background:#0C1E38;border-radius:7px;padding:8px 10px;margin-bottom:10px">'+
-            '<div style="font-size:10px;color:#3E5878;margin-bottom:3px">البريد الحالي</div>'+
-            '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#818CF8" id="curEm">—</div>'+
-          '</div>'+
-          '<div class="field"><label>البريد الجديد</label><input type="email" id="ne_email" placeholder="new@se.com.sa" style="background:#060F1E;border:1px solid #152840;color:#E8F0FF;border-radius:7px;padding:8px 11px;font-size:13.5px;width:100%"></div>'+
-          '<button class="btn p" onclick="changeEmail()">حفظ البريد</button>'+
-        '</div>'+
-      '</div>'+
-      '<div class="panel" style="grid-column:1/-1">'+
-        '<div class="ph"><h3>🔗 Supabase</h3></div>'+
-        '<div style="padding:14px">'+
-          '<div class="field"><label>Project URL</label><input value="https://ekywcrlcjgbjtwnjozov.supabase.co" readonly style="background:#060F1E;border:1px solid #152840;color:#818CF8;border-radius:7px;padding:8px 11px;font-size:12px;width:100%;font-family:\'IBM Plex Mono\',monospace"></div>'+
-          '<div style="display:flex;gap:7px;flex-wrap:wrap">'+
-            '<button class="btn sm" onclick="testConn()">فحص الاتصال</button>'+
-            '<a href="https://supabase.com/dashboard/project/ekywcrlcjgbjtwnjozov" target="_blank" class="btn sm">🔗 Dashboard</a>'+
-            '<a href="https://supabase.com/dashboard/project/ekywcrlcjgbjtwnjozov/auth/users" target="_blank" class="btn sm">👥 Auth Users</a>'+
-          '</div>'+
-          '<div id="connSt" style="margin-top:10px;font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#8098BC"></div>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
-  // Load current email
-  const sess=getStoredSession();
-  const em=document.getElementById('curEm');
-  if(em&&sess&&sess.user)em.textContent=sess.user.email||'—';
-  testConn();
-}
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active-content'));
 
-function genCP(){
-  const ch='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#$!';
-  let p='';for(let i=0;i<10;i++)p+=ch[Math.floor(Math.random()*ch.length)];
-  const el=document.getElementById('cp_new');if(el)el.value=p;
-  const sh=document.getElementById('cp_show');if(sh){sh.textContent=p;sh.style.display='block';}
-  navigator.clipboard?.writeText(p).catch(function(){});
-}
+                    btn.classList.add('active');
+                    const targetTabId = btn.getAttribute('data-tab');
+                    document.getElementById(targetTabId).classList.add('active-content');
+                });
+            });
 
-async function changePass(){
-  const np=mv('cp_new');
-  if(!np||np.length<6){toast('6 أحرف على الأقل','e');return;}
-  const sess=getStoredSession();
-  try{
-    const res=await fetch(SB_URL+'/auth/v1/user',{
-      method:'PUT',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+(sess?.access_token||''),'Content-Type':'application/json'},
-      body:JSON.stringify({password:np})
-    });
-    const d=await res.json();
-    if(d.error)throw new Error(d.error_description||d.error);
-    toast('تم التغيير ✓ — جارٍ تسجيل الخروج...','s');
-    setTimeout(doLogout,2000);
-  }catch(e){toast('خطأ: '+e.message,'e');}
-}
+            // 7. مفاتيح التبديل التفاعلية للمعاينة لفرع حائل
+            const viewAsIsBtn = document.getElementById('viewAsIsBtn');
+            const viewStcBtn = document.getElementById('viewStcBtn');
+            const stcVisionOverlay = document.getElementById('stcVisionOverlay');
 
-async function changeEmail(){
-  const ne=mv('ne_email');
-  if(!ne||!ne.includes('@')){toast('إيميل غير صحيح','e');return;}
-  const sess=getStoredSession();
-  try{
-    const res=await fetch(SB_URL+'/auth/v1/user',{
-      method:'PUT',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+(sess?.access_token||''),'Content-Type':'application/json'},
-      body:JSON.stringify({email:ne})
-    });
-    const d=await res.json();
-    if(d.error)throw new Error(d.error_description||d.error);
-    toast('تم التغيير ✓ — سجّل دخول بالجديد','s');
-    setTimeout(doLogout,2000);
-  }catch(e){toast('خطأ: '+e.message,'e');}
-}
+            viewAsIsBtn.addEventListener('click', () => {
+                viewAsIsBtn.classList.add('bg-white', 'text-black');
+                viewAsIsBtn.classList.remove('text-slate-300');
+                viewStcBtn.classList.remove('bg-white', 'text-black');
+                viewStcBtn.classList.add('text-slate-300');
+                
+                stcVisionOverlay.style.opacity = '0';
+                stcVisionOverlay.style.pointerEvents = 'none';
+            });
 
-async function testConn(){
-  const el=document.getElementById('connSt');if(!el)return;
-  el.textContent='جارٍ الفحص...';el.style.color='#8098BC';
-  try{
-    const res=await api('GET','/rest/v1/profiles?select=id&limit=1');
-    if(Array.isArray(res)){el.innerHTML='<span style="color:#10B981">✓ متصل — قاعدة البيانات تعمل</span>';}
-    else{el.innerHTML='<span style="color:#EF4444">✕ '+esc(JSON.stringify(res))+'</span>';}
-  }catch(e){el.innerHTML='<span style="color:#EF4444">✕ '+esc(e.message)+'</span>';}
-}
+            viewStcBtn.addEventListener('click', () => {
+                viewStcBtn.classList.add('bg-white', 'text-black');
+                viewStcBtn.classList.remove('text-slate-300');
+                viewAsIsBtn.classList.remove('bg-white', 'text-black');
+                viewAsIsBtn.classList.add('text-slate-300');
 
-/* ═══ HEALTH ══════════════════════════════════════════════════ */
-async function renderHealth(){
-  const area=document.getElementById('pageArea');
-  area.innerHTML='<h1 style="font-family:\'Chakra Petch\',monospace;font-size:18px;color:#818CF8;margin-bottom:14px">💡 صحة النظام</h1><div class="g4" id="hg"><div class="skr"></div><div class="skr"></div><div class="skr"></div><div class="skr"></div></div>';
-  try{
-    const [u,t,a,k,al]=await Promise.all([
-      api('GET','/rest/v1/profiles?select=id'),
-      api('GET','/rest/v1/tasks?select=id'),
-      api('GET','/rest/v1/afis?select=id'),
-      api('GET','/rest/v1/kpis?select=id'),
-      api('GET','/rest/v1/technical_alerts?select=id'),
-    ]);
-    const hg=document.getElementById('hg');if(!hg)return;
-    hg.innerHTML=[
-      {sl:'مستخدمون',sv:Array.isArray(u)?u.length:'—'},
-      {sl:'مهام',sv:Array.isArray(t)?t.length:'—'},
-      {sl:'AFIs',sv:Array.isArray(a)?a.length:'—'},
-      {sl:'KPIs',sv:Array.isArray(k)?k.length:'—'},
-      {sl:'تنبيهات',sv:Array.isArray(al)?al.length:'—'},
-      {sl:'الاتصال',sv:'✓',g:true},
-    ].map(function(s){return '<div class="sc"><div class="sl">'+s.sl+'</div><div class="sv'+(s.g?' grn':'')+'">'+s.sv+'</div></div>';}).join('');
-  }catch(e){const hg=document.getElementById('hg');if(hg)hg.innerHTML='<div style="color:#EF4444">'+esc(e.message)+'</div>';}
-}
+                stcVisionOverlay.style.opacity = '1';
+                stcVisionOverlay.style.pointerEvents = 'auto';
+            });
 
-/* ═══ UTILS ══════════════════════════════════════════════════ */
-function copyT(t){navigator.clipboard?.writeText(t).then(function(){toast('تم النسخ ✓','s');}).catch(function(){toast('انسخه يدوياً','i');});}
-function printCreds(name,email,pass,role){
-  const w=window.open('','_blank');
-  w.document.write('<html dir="rtl"><head><title>بيانات دخول</title><style>body{font-family:Arial;padding:40px;direction:rtl}h2{color:#4F46E5}.f{margin:12px 0}.l{font-size:11px;color:#666}.v{font-size:14px;font-weight:bold;font-family:monospace;background:#f0f0f0;padding:8px;border-radius:4px;margin-top:4px}hr{border:1px solid #eee;margin:18px 0}.note{font-size:11px;color:#F59E0B;margin-top:14px}</style></head><body>'+
-    '<h2>🔐 بيانات دخول المنصة</h2><h3>Saudi Energy · OE Digital Twin Command Center</h3><hr>'+
-    '<div class="f"><div class="l">الاسم</div><div class="v">'+name+'</div></div>'+
-    '<div class="f"><div class="l">الدور</div><div class="v">'+role+'</div></div>'+
-    '<div class="f"><div class="l">رابط الدخول</div><div class="v">https://sulaimanothjp-stack.github.io/OE-Department-/index.html</div></div>'+
-    '<div class="f"><div class="l">البريد</div><div class="v">'+email+'</div></div>'+
-    '<div class="f"><div class="l">كلمة المرور</div><div class="v">'+pass+'</div></div>'+
-    '<hr><div class="note">⚠️ يرجى تغيير كلمة المرور عند أول دخول · '+new Date().toLocaleDateString('ar-SA')+'</div>'+
-    '</body></html>');
-  w.print();
-}
+            // 8. محاكاة تفاعلية لتفاصيل المعالم الجغرافية القريبة بحي النقرة
+            const mapNodes = document.querySelectorAll('.map-node[data-point]');
+            const tooltipTitle = document.getElementById('tooltipTitle');
+            const tooltipDesc = document.getElementById('tooltipDesc');
 
-/* ═══ INIT ═══════════════════════════════════════════════════ */
+            const locationsDb = {
+                expressway: {
+                    ar: { title: "🛣️ سهولة الوصول والربط بالطريق الدائري", desc: "مدخل مباشر وسريع للغاية لفرع حائل من الطريق الدائري، يمنح الموظفين وكبار الشخصيات وصولاً متميزاً وسريعاً." },
+                    en: { title: "🛣️ Direct Expressway Access link", desc: "Immediate transit loop connected directly with the Hail ring road, simplifying Hail Branch executive travel." }
+                },
+                mosque: {
+                    ar: { title: "🕌 معلم مجاور: جامع الراجحي الكبير بحائل", desc: "يقع كمعلم عمراني واجتماعي رئيسي شهير بالقرب من المجمع مما يسهل الملاحة الجغرافية ووصف موقع فرع حائل." },
+                    en: { title: "🕌 Urban Landmark: Al-Rajhi Grand Mosque", desc: "Positioned adjacent to the site, acting as a major local geometric reference for Hail Branch navigation." }
+                },
+                danube: {
+                    ar: { title: "🛍️ مجمعات الدانوب والمراكز التجارية", desc: "تموضع بجوار أهم المخططات التجارية المعاصرة (بوليفارد ومراكز الأعمال) مما يعزز سهولة تأمين مبيعات قطاع التجزئة لفرع stc حائل." },
+                    en: { title: "🛍️ Danube Retails & Commercial Zone", desc: "Flanked by premium commercial lifestyle development districts, highly supportive of stc Hail Branch B2B showcases." }
+                },
+                street100: {
+                    ar: { title: "🛣️ شريان رئيسي: شارع الشيخ سليمان الراجحي", desc: "شريان تجاري عريض بعرض 100 متر يوفر واجهة ممتدة لفرع حائل بطول 52 متراً لعرض فخم لهوية وعلامة stc التجارية." },
+                    en: { title: "🛣️ Major Arterial: Sheikh Suleiman Al-Rajhi St", desc: "A prestigious 100-meter-wide commercial road offering the stc Hail Branch an excellent 52-meter facade exposure." }
+                }
+            };
 
-function openCUEmployee(){openCU();setTimeout(()=>{const s=document.getElementById('nu_rl');if(s){s.value='employee';handleRC();}},100);}
-function toggleSidebar(){
-  const sb=document.getElementById('sidebar')||document.querySelector('.sb');
-  if(!sb)return;
-  const show=sb.classList.toggle('show');
-  let ov=document.getElementById('sbOv');
-  if(!ov){
-    ov=document.createElement('div');ov.id='sbOv';
-    ov.style.cssText='display:none;position:fixed;inset:0;background:rgba(2,9,18,.75);z-index:9998;backdrop-filter:blur(2px)';
-    ov.onclick=toggleSidebar;
-    document.body.appendChild(ov);
-  }
-  ov.style.display=show?'block':'none';
-}
+            mapNodes.forEach(node => {
+                node.addEventListener('mouseenter', function() {
+                    const point = this.getAttribute('data-point');
+                    if(locationsDb[point]) {
+                        tooltipTitle.innerHTML = `<i class="fa-solid fa-location-crosshairs text-[#ff007f]"></i> ${locationsDb[point][currentLang].title}`;
+                        tooltipDesc.innerText = locationsDb[point][currentLang].desc;
+                    }
+                });
+                node.addEventListener('mouseleave', function() {
+                    tooltipTitle.innerHTML = `<i class="fa-solid fa-satellite-dish text-[#ff007f]"></i> مصفوفة الملاحة والارتباط الجغرافي`;
+                    tooltipDesc.innerText = currentLang === 'ar' ? "مرر الفأرة فوق أي نقطة على الخريطة لقراءة التفاصيل والوصول اللوجستي المباشر من الدائري." : "Hover over a strategic asset node on the layout map to calculate vector properties.";
+                });
+            });
 
-(async function init(){
-  startClock();
-  
-  // Read session from localStorage directly - no Supabase JS needed
-  const sess = getStoredSession();
-  
-  if(!sess || !sess.access_token){
-    location.href='index.html';
-    return;
-  }
-  
-  // Verify token is not expired
-  try{
-    const payload = JSON.parse(atob(sess.access_token.split('.')[1]));
-    if(payload.exp && payload.exp * 1000 < Date.now()){
-      // Token expired - clear and redirect
-      Object.keys(localStorage).filter(function(k){return k.includes('supabase')||k.includes('sb-');}).forEach(function(k){localStorage.removeItem(k);});
-      location.href='index.html';
-      return;
-    }
-  }catch(e){}
-  
-  // Get profile
-  document.getElementById('loadTxt').textContent='② جلب الملف الشخصي...';
-  try{
-    let _uid = sess.user?.id;
-    if(!_uid){ try{ _uid=JSON.parse(atob(sess.access_token.split('.')[1])).sub; }catch(e){} }
-    if(!_uid){ location.href='index.html'; return; }
-    const data = await api('GET', '/rest/v1/profiles?id=eq.'+_uid+'&select=*');
-    const profile = Array.isArray(data) ? data[0] : null;
-    
-    if(!profile){
-      document.getElementById('pageArea').innerHTML=
-        '<div style="display:flex;align-items:center;justify-content:center;height:70vh">'+
-        '<div style="text-align:center;padding:20px">'+
-          '<div style="font-size:42px;margin-bottom:12px">🗄️</div>'+
-          '<h2 style="color:#fff;margin-bottom:8px">Profile not found</h2>'+
-          '<p style="color:#8098BC;font-size:13px;margin-bottom:14px">شغّل هذا في Supabase SQL Editor:</p>'+
-          '<code style="background:#0C1E38;padding:10px;border-radius:8px;display:block;font-size:11px;color:#818CF8;direction:ltr;text-align:left">UPDATE public.profiles SET role=\'admin\' WHERE id=\''+sess.user.id+'\';</code>'+
-          '<button onclick="location.reload()" class="btn p" style="margin-top:14px">إعادة المحاولة</button>'+
-        '</div></div>';
-      return;
-    }
-    
-    if(profile.role !== 'admin'){
-      const portals={admin:'admin.html',director:'department.html',governance_manager:'governance.html',generation_manager:'generation.html',national_grid_manager:'national-grid.html',distribution_manager:'distribution.html',technical_alerts_manager:'technical-alerts.html',employee:'employee.html'};
-      location.href = portals[profile.role] || 'index.html';
-      return;
-    }
-    
-    // Update UI
-    const init=(profile.full_name||'A').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
-    const av=document.getElementById('ubAv'),nm=document.getElementById('ubNm');
-    if(av)av.textContent=init;
-    if(nm)nm.textContent=profile.full_name||'Admin';
-    
-    // Render users page
-    renderUsers();
-    
-  }catch(e){
-    document.getElementById('pageArea').innerHTML=
-      '<div style="display:flex;align-items:center;justify-content:center;height:70vh">'+
-      '<div style="text-align:center;padding:20px">'+
-        '<div style="font-size:42px;margin-bottom:10px">⚠️</div>'+
-        '<div style="color:#EF4444;font-size:14px;margin-bottom:8px">'+esc(e.message)+'</div>'+
-        '<button onclick="location.reload()" class="btn p">إعادة المحاولة</button>'+
-        '<button onclick="doLogout()" class="btn" style="margin-right:8px">تسجيل خروج</button>'+
-      '</div></div>';
-  }
-})();
-</script>
+            // 9. تفاصيل الطوابق التفاعلية لفرع حائل
+            const floorSelectors = document.querySelectorAll('.floor-selector');
+            const floorTitle = document.getElementById('floorTitle');
+            const floorBadge = document.getElementById('floorBadge');
+            const floorDescription = document.getElementById('floorDescription');
+            const floorInteriorMapLabel = document.getElementById('floorInteriorMapLabel');
+
+            const floorsDb = {
+                ground: {
+                    title: { ar: "الدور الأرضي لفرع حائل: مساحات مفتوحة ومركز تجربة العملاء", en: "Ground Level: Customer Experience & Open Space Center" },
+                    badge: { ar: "Open Space System (2,217 SQM)", en: "Open Space System (2,217 SQM)" },
+                    desc: { ar: "مساحة واسعة جداً بمقدار 2,217 متر مربع بنظام المساحات المفتوحة (Open Space)، مثالية لمراكز البيانات والشبكات، صالات خدمة العملاء الفاخرة لفرع حائل.", en: "Dedicated to premium customer journeys, immersive showroom capabilities, and Hail Branch sales support metrics." },
+                    layout: "stc Hail Branch Retail Center & Customer Experience Layout (2,217 SQM)"
+                },
+                first: {
+                    title: { ar: "الدور الأول لفرع حائل: المكاتب الإدارية والعمليات الرقمية", en: "First Level: Enterprise Offices & Digital Operations" },
+                    badge: { ar: "Corporate Command (1,654 SQM)", en: "Corporate Command (1,654 SQM)" },
+                    desc: { ar: "مساحة مخصصة بمقدار 1,654 متر مربع لفرع حائل تدعم عمليات قطاع الشركات ومكاتب القيادات وإدارة الشبكة، مع بنية مفتوحة تتيح تعديل القواطع بسهولة.", en: "Covering 1,654 square meters, designed for Hail Branch network supervision, executive team offices, and collaborative cubicles." },
+                    layout: "stc Hail Branch IT Operations & Network Command Layout (1,654 SQM)"
+                },
+                structural: {
+                    title: { ar: "الهيكلة الكلية لفرع حائل: 4 مبانٍ متصلة", en: "Total Complex Geometry: 4 Interconnected Buildings" },
+                    badge: { ar: "Total Complex System (4,165 SQM BUA)", en: "Total Complex System (4,165 SQM BUA)" },
+                    desc: { ar: "مجمع متكامل ومترابط من 4 مبانٍ متصلة يمنح فرع stc حائل هيمنة مكانية متميزة، ويوفر مرونة استثنائية للفصل التشغيلي والأمني بين قطاع التجزئة والعمليات الحرجة.", en: "A unified system of 4 connected commercial shells, providing stc Hail Branch with spatial dominance and a clean operational baseline." },
+                    layout: "stc Hail Branch Master Interconnected Shell & Complex Overview (4,165 SQM BUA)"
+                }
+            };
+
+            floorSelectors.forEach(selector => {
+                selector.addEventListener('click', function() {
+                    floorSelectors.forEach(s => {
+                        s.classList.remove('active', 'border-[#ff007f]');
+                        s.classList.add('text-slate-400');
+                    });
+                    
+                    this.classList.add('active');
+                    this.classList.remove('text-slate-400');
+
+                    const floor = this.getAttribute('data-floor');
+                    if(floorsDb[floor]) {
+                        floorTitle.innerText = floorsDb[floor].title[currentLang];
+                        floorBadge.innerText = floorsDb[floor].badge[currentLang];
+                        floorDescription.innerText = floorsDb[floor].desc[currentLang];
+                        floorInteriorMapLabel.innerText = floorsDb[floor].layout;
+                    }
+                });
+            });
+
+            // تحميل وتحديث البيانات عند إقلاع الصفحة
+            loadDashboardData();
+
+        });
+    </script>
+
 </body>
 </html>
+
+```
