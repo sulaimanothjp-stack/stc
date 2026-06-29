@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>stc Hail Branch — Strategic Acquisition Proposal</title>
-    <!-- استدعاء Tailwind CSS و FontAwesome للمظهر العصري المستقر -->
+    <title>stc Hail Branch — Admin Control Portal</title>
+    <!-- استدعاء أدوات التنسيق والخطوط الفاخرة لفرع حائل -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- مكتبة Supabase JS الرسمية عبر CDN -->
+    <!-- مكتبة Supabase JS الرسمية للربط السحابي -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <style>
         :root {
             --stc-purple: #7a22b3;
-            --stc-purple-glow: rgba(122, 34, 179, 0.5);
+            --stc-purple-glow: rgba(122, 34, 179, 0.4);
             --stc-pink: #ff007f;
-            --space-deep: #04010a;
-            --glass-base: rgba(18, 10, 31, 0.78);
-            --glass-border: rgba(255, 255, 255, 0.07);
+            --space-deep: #05020c;
+            --glass-base: rgba(18, 10, 31, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --text-primary: #f3f0f7;
             --text-muted: #a29bb0;
         }
@@ -38,36 +38,7 @@
             min-height: 100vh;
         }
 
-        /* تصميم مؤشر الفأرة التفاعلي الفاخر للأجهزة اللوحية والمكتبية */
-        .custom-cursor {
-            width: 26px;
-            height: 26px;
-            border: 1px solid var(--stc-pink);
-            border-radius: 50%;
-            position: fixed;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 9999;
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            display: none;
-        }
-        .custom-cursor-dot {
-            width: 5px;
-            height: 5px;
-            background-color: #fff;
-            border-radius: 50%;
-            position: fixed;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 10000;
-            display: none;
-        }
-        @media (min-width: 1024px) {
-            body { cursor: none; }
-            .custom-cursor, .custom-cursor-dot { display: block; }
-        }
-
-        /* خلفية الفضاء المتحركة للنجوم الكونية */
+        /* خلفية النجوم المتحركة التفاعلية لتوحيد مظهر البوابة */
         #spaceCanvas {
             position: fixed;
             top: 0;
@@ -78,511 +49,161 @@
             pointer-events: none;
         }
 
-        /* لوحات الزجاج الذكي الشفاف */
         .glass-panel {
             background: var(--glass-base);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .glass-panel:hover {
-            border-color: rgba(255, 0, 127, 0.25);
-            box-shadow: 0 20px 45px rgba(122, 34, 179, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
         }
 
-        /* دوران مداري تجميلي حول الشعار المضيء */
-        .orbit-ring {
-            position: absolute;
+        .stc-input {
             width: 100%;
-            height: 100%;
-            border: 1px dashed rgba(255, 0, 127, 0.45);
-            border-radius: 50%;
-            animation: spinOrbit 30s infinite linear;
-        }
-        @keyframes spinOrbit {
-            100% { transform: rotate(360deg); }
-        }
-
-        /* أزرار التصفح الفاخرة للتبويبات */
-        .tab-btn {
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--stc-pink);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-        .tab-btn.active::after {
-            width: 60%;
-        }
-        .tab-btn.active {
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             color: #fff;
-            background: rgba(122, 34, 179, 0.25);
-            border-color: var(--stc-purple);
-            box-shadow: 0 0 20px var(--stc-purple-glow);
-        }
-
-        /* انسيابية حركة الانتقال التدريجي السلس للتبويبات */
-        .tab-content {
-            display: none;
-            animation: blurFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .tab-content.active-content {
-            display: block;
-        }
-        @keyframes blurFadeIn {
-            0% { opacity: 0; filter: blur(10px); transform: translateY(15px); }
-            100% { opacity: 1; filter: blur(0); transform: translateY(0); }
-        }
-
-        /* غطاء محاكاة هوية stc للواجهة الزجاجية */
-        .stc-vision-overlay {
-            background: linear-gradient(to bottom, rgba(122,34,179,0.5), rgba(15, 4, 31, 0.95));
-        }
-        
-        /* وميض ونبض النيون الذكي لشعار stc المستقبلي */
-        .neon-glow {
-            text-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px var(--stc-purple);
-            animation: pulseNeon 3s infinite alternate ease-in-out;
-        }
-        @keyframes pulseNeon {
-            0% { opacity: 0.85; }
-            100% { opacity: 1; }
-        }
-
-        /* تفاعل عناصر الملاحة بالخريطة */
-        .map-node {
+            font-size: 14px;
             transition: all 0.3s ease;
         }
-        .map-node:hover {
-            fill: #fff !important;
-            stroke: var(--stc-pink) !important;
-            r: 13px !important;
-            filter: drop-shadow(0 0 12px var(--stc-pink));
+        .stc-input:focus {
+            border-color: var(--stc-pink);
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            outline: none;
         }
 
-        /* شريط التموضع والتحقق الأمني السفلي الثابت */
-        .status-bar {
-            border-top: 1px solid var(--glass-border);
-            background: rgba(5, 2, 10, 0.96);
+        .btn-stc {
+            background: linear-gradient(90deg, var(--stc-purple), var(--stc-pink));
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-stc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.55);
+        }
+
+        /* الإشعار المنبثق الدائري المضيء */
+        .toast-notification {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body class="p-4 sm:p-6 min-h-screen flex items-center justify-center">
 
-    <!-- مؤشرات الفأرة الذكية -->
-    <div class="custom-cursor" id="cursorOuter"></div>
-    <div class="custom-cursor-dot" id="cursorInner"></div>
-
-    <!-- محرك رسم السديم والنجوم الفضائية التفاعلية -->
+    <!-- محرك النجوم التفاعلي الخلفي -->
     <canvas id="spaceCanvas"></canvas>
 
-    <div class="min-h-screen flex flex-col justify-between pb-16">
+    <!-- إشعار المزامنة والنجاح -->
+    <div id="toastNotification" class="toast-notification fixed bottom-10 left-6 z-50 glass-panel px-6 py-4 rounded-xl border border-emerald-500 flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <i class="fa-solid fa-circle-check animate-bounce"></i>
+        </div>
+        <div>
+            <h4 class="text-xs font-bold text-white">تمت مزامنة فرع حائل بنجاح</h4>
+            <p class="text-[10px] text-slate-400 mt-0.5">انعكست البيانات فوراً على العرض التنفيذي السحابي.</p>
+        </div>
+    </div>
+
+    <div class="w-full max-w-3xl glass-panel p-8 rounded-2xl relative overflow-hidden border border-white/5">
         
-        <!-- الهيدر المزدوج الذكي: معلومات أمنية وتبديل اللغة -->
-        <header class="glass-panel sticky top-0 z-50 w-full px-6 py-4 mb-6">
-            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
+        <!-- الهيدر التنظيمي للفرع -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-6 border-b border-white/10">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#7a22b3] to-[#ff007f] flex items-center justify-center text-white font-black text-xl shadow-[0_0_15px_rgba(255,0,127,0.4)]">stc</div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-black text-white">إدارة فرع منطقة حائل</h1>
+                    <p class="text-xs text-slate-400 mt-1">المزامنة السحابية المباشرة للأصول والمساحات مع لوحة العرض التنفيذية.</p>
+                </div>
+            </div>
+            <a href="index.html" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition text-xs font-bold flex items-center gap-1.5 text-slate-300">
+                <i class="fa-solid fa-eye text-[#ff007f]"></i> معاينة العرض الرئيسي
+            </a>
+        </div>
+
+        <!-- مصفوفة الحقول والبيانات التقنية لفرع حائل -->
+        <form id="branchAdminForm" class="space-y-6" onsubmit="event.preventDefault();">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <!-- الشعار التعريفي والهوية والمعلومات الأمنية للمقر -->
-                <div class="flex items-center gap-4">
-                    <div class="orbit-container relative w-12 h-12 flex items-center justify-center shrink-0">
-                        <div class="orbit-ring"></div>
-                        <div class="w-3 h-3 bg-[#ff007f] rounded-full absolute"></div>
-                        <span class="text-white font-black text-xl tracking-tighter relative z-10 neon-glow">stc</span>
+                <!-- المجموعة الأولى: الأرقام والمساحات المعتمدة -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-black text-[#ff007f] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-calculator"></i> المعايير المالية والمساحات
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">الاستثمار المقترح الكلي (SAR)</label>
+                        <input type="text" id="adm-price" class="stc-input" value="26,000,000">
                     </div>
                     <div>
-                        <span class="confidential-tag text-[9px] text-[#ff007f] tracking-widest font-bold block" id="lbl-classification">STRICTLY CONFIDENTIAL • STC BOARD TIER 1</span>
-                        <h1 class="text-md sm:text-lg font-black text-white" id="lbl-mainTitle">stc Hail Branch — Strategic Acquisition Proposal</h1>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">مساحة الأرض لفرع حائل (م²)</label>
+                        <input type="text" id="adm-landArea" class="stc-input" value="4,104">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">إجمالي مسطحات البناء للفرع (BUA - م²)</label>
+                        <input type="text" id="adm-bua" class="stc-input" value="4,165">
                     </div>
                 </div>
 
-                <!-- شريط التبويبات الفاخر والأكثر استجابة للهواتف الذكية -->
-                <div class="flex flex-wrap justify-center sm:justify-start gap-1.5 bg-black/40 p-1.5 rounded-xl border border-white/5">
-                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg active" data-tab="overview" id="btn-tab-overview">📊 الملخص التنفيذي</button>
-                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="asset" id="btn-tab-asset">🏢 أصول المعاينة</button>
-                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="location" id="btn-tab-location">📍 الذكاء الجغرافي</button>
-                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="floors" id="btn-tab-floors">🏗️ هيكلة الطوابق</button>
-                    <button class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 rounded-lg" data-tab="strategy" id="btn-tab-strategy">⚡ مصفوفة الاستراتيجية</button>
-                </div>
-
-                <!-- اللغات وخارطة النفاذ السريع -->
-                <div class="flex items-center gap-3">
-                    <button id="langToggleBtn" class="px-3.5 py-1.5 rounded-full border border-white/10 text-xs font-bold hover:bg-white/5 transition">English</button>
-                    <a href="admin.html" target="_blank" class="px-4 py-1.5 rounded-full bg-[#7a22b3] text-white text-xs font-bold hover:bg-[#ff007f] hover:shadow-[0_0_15px_#ff007f] transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-sliders"></i> <span id="lbl-adminPortalLink">بوابة الإدارة</span>
-                    </a>
+                <!-- المجموعة الثانية: اللوجستيات والمراحل -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-black text-[#ff007f] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-truck-ramp-box"></i> الكفاءة اللوجستية والإنشائية
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">طاقة مواقف السيارات المخصصة لفرع حائل</label>
+                        <input type="number" id="adm-parking" class="stc-input" value="50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">نسبة التجهيزات والتشطيبات الداخلية الحرجة (%)</label>
+                        <input type="number" id="adm-fitout" class="stc-input" value="75" min="0" max="100">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">نسبة إنجاز الهيكل والواجهات (%)</label>
+                        <input type="number" id="adm-progress" class="stc-input" value="53" min="0" max="100">
+                    </div>
                 </div>
 
             </div>
-        </header>
 
-        <!-- مساحات التبويبات والمحتويات الديناميكية للداشبورد التفاعلي -->
-        <main id="executiveModeWorkspace" class="max-w-7xl mx-auto px-6 w-full flex-grow space-y-6">
-
-            <!-- TAB 1: OVERVIEW -->
-            <div id="overview" class="tab-content active-content space-y-6">
-                <div class="glass-panel p-8 rounded-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                    <div class="relative z-10 space-y-2">
-                        <span class="text-xs font-bold text-[#ff007f] uppercase tracking-widest block" id="lbl-overviewTag">STRATEGIC ACQUISITION PROPOSAL • HAIL BRANCH ASSET</span>
-                        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight" id="lbl-briefingTitle">عرض مقترح استحواذ استراتيجي: مجمع ومقر فرع stc بمنطقة حائل</h2>
-                        <p class="text-slate-300 text-sm max-w-3xl leading-relaxed" id="lbl-briefingDesc">
-                            مقترح استراتيجي موجه للإدارة العليا لشركة stc لحيازة مجمع متميز بنسبة إنجاز 53% ليكون فرع عمليات رقمي متكامل يخدم منطقة حائل ويسرع التواجد الجغرافي تماشياً مع رؤية 2030 وتجنب أعباء بناء المواقع من الصفر.
-                        </p>
+            <!-- مصفوفة تحميل وتحديث صور الأصول والواجهات -->
+            <div class="pt-4 border-t border-white/5 space-y-4">
+                <h3 class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-image text-[#ff007f]"></i> مصفوفة صور فرع حائل المعتمدة
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5">تحديث صورة فرع حائل الأساسية (Current View)</label>
+                        <input type="file" id="adm-imgCurrent" accept="image/*" class="text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-4 file:rounded-full file:bg-white/10 file:text-white file:border-0 hover:file:bg-white/20 cursor-pointer w-full mb-2">
+                        <input type="text" id="adm-imgCurrentUrl" placeholder="أو الصق رابط صورة خارجي مباشر هنا..." class="stc-input !p-2.5 !text-xs">
                     </div>
-                    <div class="glass-panel px-6 py-4 rounded-xl flex flex-col items-end shrink-0 bg-black/40 border-white/10">
-                        <span class="text-[10px] text-slate-400 tracking-wider" id="lbl-financialAsset">إجمالي الاستثمار المقترح (CapEx)</span>
-                        <h3 class="text-2xl font-black text-[#ff007f]" id="disp-price">SAR 26,000,000</h3>
-                        <span class="text-[9px] text-emerald-400 font-bold" id="lbl-justification">توفير تكاليف الرخص الأساسية وحفر التأسيس</span>
-                    </div>
-                </div>
-
-                <!-- بطاقات المؤشرات الاستراتيجية الأربعة -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
-                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardLand">مساحة الأرض الإجمالية</span>
-                        <h4 class="text-2xl font-extrabold text-white" id="disp-landArea">4,104 م²</h4>
-                        <i class="fa-solid fa-vector-square text-white/5 text-5xl absolute bottom-2 left-4"></i>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
-                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardBua">إجمالي مسطحات البناء (BUA)</span>
-                        <h4 class="text-2xl font-extrabold text-white" id="disp-bua">4,165 م²</h4>
-                        <i class="fa-solid fa-cubes text-white/5 text-5xl absolute bottom-2 left-4"></i>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
-                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardProgress">نسبة إنجاز الهيكل والواجهات</span>
-                        <h4 class="text-2xl font-extrabold text-[#ff007f]" id="disp-progress">53%</h4>
-                        <div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
-                            <div id="disp-progressBar" class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full transition-all duration-1000" style="width: 53%;"></div>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl relative overflow-hidden">
-                        <span class="text-xs text-slate-400 block mb-2" id="lbl-cardParking">السعة اللوجستية للمواقف</span>
-                        <h4 class="text-2xl font-extrabold text-emerald-400" id="disp-parking">50 موقف سيارة</h4>
-                        <i class="fa-solid fa-car text-white/5 text-5xl absolute bottom-2 left-4"></i>
-                    </div>
-                </div>
-
-                <!-- مبررات الاستحواذ والتناسق الاستراتيجي -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-xl space-y-4">
-                        <h3 class="text-lg font-bold text-white" id="lbl-fitoutTitle">جدولة الإنجاز والواجهة الخارجية لفرع حائل</h3>
-                        <p class="text-sm text-slate-400" id="lbl-fitoutDesc">
-                            تم الانتهاء بالكامل من الأعمال الإنشائية التأسيسية للمبنى مع تركيب واجهات الكلادينج والزجاج المزدوج الحامي والمانع للتشتت الصوتي، ويجري تجهيز المرافق الداخلية بما يتوافق مع المعايير الفنية والتكنولوجية المخصصة لفرع stc حائل.
-                        </p>
-                        <div class="space-y-3">
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span id="lbl-fitoutStruct">الهيكل الإنشائي العام</span>
-                                    <span>100%</span>
-                                </div>
-                                <div class="w-full bg-white/5 h-2 rounded-full"><div class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full" style="width: 100%;"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span id="lbl-fitoutClad">الكلادينج والواجهة الزجاجية</span>
-                                    <span>100%</span>
-                                </div>
-                                <div class="w-full bg-white/5 h-2 rounded-full"><div class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full" style="width: 100%;"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span id="lbl-fitoutInt">التجهيزات والتبريد الداخلي (الحرج)</span>
-                                    <span>75%</span>
-                                </div>
-                                <div class="w-full bg-white/5 h-2 rounded-full"><div id="disp-fitoutBar" class="bg-gradient-to-r from-purple-600 to-pink-500 h-full rounded-full transition-all duration-1000" style="width: 75%;"></div></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-xl flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-lg font-bold text-white mb-2" id="lbl-strategicValueTitle">القيمة والامتياز الاستثماري الاستراتيجي</h3>
-                            <p class="text-sm text-slate-400 mb-4" id="lbl-strategicValueDesc">
-                                يعيد هذا المشروع توظيف أصل عقاري قائم بما يتطابق مع تطلعات فرع stc حائل للتحول الرقمي وحصص الكفاءة:
-                            </p>
-                        </div>
-                        <ul class="space-y-3 text-sm text-slate-300">
-                            <li class="flex items-center gap-3"><i class="fa-solid fa-bullseye text-[#ff007f]"></i> <span id="lbl-stratVal1">خدمة كثافة سكانية متنامية بأكثر من 300 ألف نسمة في منطقة حائل.</span></li>
-                            <li class="flex items-center gap-3"><i class="fa-solid fa-network-wired text-[#7a22b3]"></i> <span id="lbl-stratVal2">بنية جاهزة واصلة لخدمات الألياف البصرية المتطورة والكهرباء والخدمات الأساسية.</span></li>
-                            <li class="flex items-center gap-3"><i class="fa-solid fa-leaf text-emerald-400"></i> <span id="lbl-stratVal3">استدامة كفاءة الطاقة والموارد المتوافقة تماماً مع معايير كود البناء السعودي لفرع حائل.</span></li>
-                        </ul>
+                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5">صورة المعرض الفرعي لفرع حائل (Gallery Slot A)</label>
+                        <input type="file" id="adm-imgGalA" accept="image/*" class="text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-4 file:rounded-full file:bg-white/10 file:text-white file:border-0 hover:file:bg-white/20 cursor-pointer w-full mb-2">
+                        <input type="text" id="adm-imgGalAUrl" placeholder="أو الصق رابط صورة خارجي مباشر هنا..." class="stc-input !p-2.5 !text-xs">
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 2: THE ASSET -->
-            <div id="asset" class="tab-content space-y-6">
-                <div class="glass-panel p-6 rounded-xl">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                        <div>
-                            <h2 class="text-xl font-bold text-white" id="lbl-assetReview">تفاصيل أصول العقار والمعاينة البصرية</h2>
-                            <p class="text-sm text-slate-400" id="lbl-assetReviewDesc">استخدم مفتاح التبديل التفاعلي لمقارنة الحالة الراهنة للهيكل المصمم مع تصور دمج هوية stc المضيئة على واجهة فرع حائل الزجاجية الممتدة بطول 52 متراً.</p>
-                        </div>
-                        <div class="inline-flex bg-black/40 p-1.5 rounded-full border border-white/10 shrink-0">
-                            <button id="viewAsIsBtn" class="px-5 py-2 text-xs font-bold rounded-full transition-all duration-300 bg-white text-black">📸 الوضع الحالي (Before)</button>
-                            <button id="viewStcBtn" class="px-5 py-2 text-xs font-bold rounded-full transition-all duration-300 text-slate-300 hover:text-white">✨ التصور المستقبلي (Vision)</button>
-                        </div>
-                    </div>
+            <!-- زر التحديث والمزامنة اللحظية سحابياً ومحلياً -->
+            <button type="button" id="publishBtn" class="btn-stc w-full py-4 text-sm font-black text-white rounded-xl shadow-xl flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0 transition">
+                <i class="fa-solid fa-cloud-arrow-up animate-pulse"></i> نشر ومزامنة بيانات فرع stc حائل
+            </button>
 
-                    <div class="relative w-full rounded-xl overflow-hidden shadow-2xl group border border-white/10" style="height: 520px;">
-                        <img id="primaryBuildingImg" class="w-full h-full object-cover transition-all duration-700" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200" alt="stc Hail Branch Building">
-                        
-                        <div id="stcVisionOverlay" class="stc-vision-overlay absolute inset-0 opacity-0 pointer-events-none flex flex-col items-center justify-center transition-all duration-700">
-                            <div class="orbit-container relative w-36 h-36 flex items-center justify-center mb-4">
-                                <div class="orbit-ring"></div>
-                                <div class="w-4 h-4 bg-[#ff007f] rounded-full absolute"></div>
-                                <span class="text-white font-black text-6xl tracking-widest neon-glow">stc</span>
-                            </div>
-                            <span class="text-sm text-white/90 font-bold tracking-widest bg-black/50 px-4 py-1.5 rounded-full border border-white/20 shadow-lg" id="lbl-integrationStatus">stc HAIL BRANCH CENTER</span>
-                            <span class="text-xs text-slate-300 mt-2" id="lbl-renderingLabel">نمذجة وتطبيق الهوية البصرية لـ stc على واجهة فرع منطقة حائل الزجاجية بطول 52 م</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- معرض الصور الجانبي للمجمع -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="imageGalleryGrid">
-                    <div class="glass-panel rounded-xl overflow-hidden h-44 relative group border border-white/5">
-                        <img id="galImgNodeA" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=500" alt="stc Workspaces">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-4 flex items-end">
-                            <span class="text-xs font-bold text-white" id="lbl-galA">المساحات المفتوحة لفرع حائل - الطابق الأول (1,654 م²)</span>
-                        </div>
-                    </div>
-                    <div class="glass-panel rounded-xl overflow-hidden h-44 relative group border border-white/5">
-                        <img id="galImgNodeB" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=500" alt="Data Center">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-4 flex items-end">
-                            <span class="text-xs font-bold text-white" id="lbl-galB">تجهيزات مركز خوادم فرع حائل والـ Data Center</span>
-                        </div>
-                    </div>
-                    <div class="glass-panel rounded-xl overflow-hidden h-44 relative group border border-white/5">
-                        <img id="galImgNodeC" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=500" alt="stc Showroom">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-4 flex items-end">
-                            <span class="text-xs font-bold text-white" id="lbl-galC">صالات خدمة عملاء فرع حائل - الطابق الأرضي (2,217 م²)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 3: LOCATION INTELLIGENCE -->
-            <div id="location" class="tab-content space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="glass-panel p-6 rounded-xl md:col-span-2 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-lg font-bold text-white mb-1" id="lbl-geoMapTitle">خريطة حائل الذكية: حي النقرة وفرع منطقة حائل</h3>
-                            <p class="text-xs text-slate-400 mb-4" id="lbl-geoMapDesc">قم بتمرير مؤشر الفأرة فوق نقاط الملاحة لقياس المزايا والمسافات اللوجستية لفرع حائل المتمركز على شارع سليمان الراجحي بعرض 100م.</p>
-                        </div>
-                        
-                        <div class="relative bg-black/60 border border-white/10 rounded-xl overflow-hidden p-2">
-                            <svg viewBox="0 0 800 500" class="w-full h-auto block">
-                                <defs>
-                                    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
-                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
-                                    </pattern>
-                                </defs>
-                                <rect width="100%" height="100%" fill="url(#gridPattern)" />
-
-                                <path d="M100,250 L400,250 L700,100 M400,250 L450,400 M400,250 L200,420 M400,250 L650,350" fill="none" stroke="rgba(122, 34, 179, 0.35)" stroke-width="3" stroke-dasharray="6,6" />
-                                
-                                <circle cx="400" cy="250" r="18" class="map-node fill-[#ff007f] stroke-white stroke-[3] shadow-lg cursor-pointer" id="node-center" />
-                                <text x="400" y="222" text-anchor="middle" class="fill-white font-black text-xs">FUTURE STC HAIL BRANCH</text>
-
-                                <circle cx="100" cy="250" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="expressway" />
-                                <text x="100" y="280" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapExpressway">المدخل من الطريق الدائري</text>
-
-                                <circle cx="450" cy="400" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="mosque" />
-                                <text x="450" y="430" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapMosque">جامع الراجحي الكبير</text>
-
-                                <circle cx="200" cy="420" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="danube" />
-                                <text x="200" y="450" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapDanube">مجمعات الدانوب والأسواق</text>
-
-                                <circle cx="700" cy="100" r="10" class="map-node fill-[#7a22b3] stroke-white/40 stroke-[2] cursor-pointer" data-point="street100" />
-                                <text x="700" y="130" text-anchor="middle" class="fill-slate-300 text-[11px]" id="txt-mapStreet">شارع الشيخ سليمان الراجحي (100م)</text>
-                            </svg>
-
-                            <div id="telemetryTooltip" class="absolute bottom-4 left-4 right-4 bg-black/95 p-4 rounded-lg border border-[#7a22b3] backdrop-blur-md">
-                                <h4 id="tooltipTitle" class="text-sm font-black text-white flex items-center gap-2">
-                                    <i class="fa-solid fa-satellite-dish text-[#ff007f]"></i> مصفوفة الملاحة والارتباط الجغرافي
-                                </h4>
-                                <p id="tooltipDesc" class="text-xs text-slate-400 mt-1 leading-relaxed">
-                                    مرر الفأرة فوق أي نقطة على الخريطة لقراءة التفاصيل والوصول اللوجستي المباشر من الطريق الدائري.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="glass-panel p-6 rounded-xl">
-                            <h3 class="text-sm font-bold text-[#ff007f] mb-4 uppercase tracking-wider" id="lbl-geoCoords">الموقع والمحور الجغرافي</h3>
-                            <div class="bg-black/30 p-3 rounded-lg border border-white/5 mb-2 font-mono text-xs flex justify-between">
-                                <span class="text-slate-400">District:</span>
-                                <span class="text-white font-bold" id="lbl-distName">حي النقرة - حائل</span>
-                            </div>
-                            <div class="bg-black/30 p-3 rounded-lg border border-white/5 font-mono text-xs flex justify-between">
-                                <span class="text-slate-400">Primary Arterial:</span>
-                                <span class="text-white font-bold" id="lbl-streetName">شارع الراجحي (100 متر)</span>
-                            </div>
-                        </div>
-
-                        <div class="glass-panel p-6 rounded-xl space-y-4">
-                            <h3 class="text-sm font-bold text-white" id="lbl-proximityTitle">جاهزية البنية التحتية والشبكة</h3>
-                            <p class="text-xs text-slate-400 leading-relaxed" id="lbl-proximityDesc">
-                                يتمتع موقع فرع حائل بجاهزية كاملة للبنية التحتية الأساسية والخدمات الرقمية؛ حيث واصلت كابلات الألياف البصرية فائقة السرعة، شبكات الكهرباء ذات الجهد العالي الملائمة لعمليات الـ Data Center، أنظمة المياه، والصرف الصحي بالكامل للموقع.
-                            </p>
-                            <a href="https://www.google.com/maps?q=27.4906888,41.6636857" target="_blank" class="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition border border-white/20 text-center block">
-                                <i class="fa-solid fa-map-location-dot mr-1"></i> فتح الموقع في خرائط جوجل الفيدرالية
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 4: ARCHITECTURE & FLOORS -->
-            <div id="floors" class="tab-content space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="flex flex-col gap-3">
-                        <button class="floor-selector active p-5 glass-panel text-right rounded-xl font-bold flex justify-between items-center border-[#ff007f]" data-floor="ground">
-                            <span>الطابق الأرضي لفرع حائل</span>
-                            <i class="fa-solid fa-chevron-left text-[#ff007f]"></i>
-                        </button>
-                        <button class="floor-selector p-5 glass-panel text-right rounded-xl font-bold flex justify-between items-center text-slate-400" data-floor="first">
-                            <span>الدور الأول لفرع حائل</span>
-                            <i class="fa-solid fa-chevron-left opacity-30"></i>
-                        </button>
-                        <button class="floor-selector p-5 glass-panel text-right rounded-xl font-bold flex justify-between items-center text-slate-400" data-floor="structural">
-                            <span>الهيكلة الكلية لفرع حائل (4 مبانٍ)</span>
-                            <i class="fa-solid fa-chevron-left opacity-30"></i>
-                        </button>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-xl md:col-span-2">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 id="floorTitle" class="text-lg font-black text-white">الدور الأرضي لفرع حائل: نظام المساحات المفتوحة</h3>
-                            <span id="floorBadge" class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f] text-[#ff007f] text-xs font-bold rounded-full">Retail & Showroom Area</span>
-                        </div>
-
-                        <div class="relative w-full bg-black/70 border border-white/10 rounded-xl overflow-hidden p-6 flex items-center justify-center" style="height: 300px;">
-                            <div class="grid-line-layer absolute inset-0"></div>
-                            <div class="relative z-10 border border-[#7a22b3]/50 w-4/5 h-4/5 rounded-lg bg-[#7a22b3]/5 flex items-center justify-center text-center">
-                                <span id="floorInteriorMapLabel" class="text-slate-400 text-xs font-bold tracking-widest uppercase px-4">stc Innovation Center & Retail Interface Layout</span>
-                            </div>
-                        </div>
-
-                        <p id="floorDescription" class="text-sm text-slate-400 mt-4 leading-relaxed">
-                            مساحة مفتوحة لفرع حائل ومزودة بزجاج ممتد مخصصة لاستقبال عملاء قطاع الأعمال والشركات الحكومية والخاصة الكبرى، وتجهيز صالة عرض ذكية تحاكي التطور الهيكلي لمنظومات الـ IoT والجيل الخامس والحلول الرقمية لشركة stc.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 5: STRATEGY & SWOT -->
-            <div id="strategy" class="tab-content space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-emerald-500">
-                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-shield text-emerald-500"></i> Strengths • نقاط القوة الإنشائية لفرع حائل
-                        </h3>
-                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
-                            <li>موقع زاوية مميز جداً أمام منتزه الأمير سعود والخدمات الحيوية بحائل.</li>
-                            <li>تصميم إداري معاصر مرن وقابل للتعديل والتوافق مع متطلبات stc الفنية.</li>
-                            <li>واجهة عريضة لفرع حائل بطول 52 متراً على شارع رئيسي تبرز الهوية التجارية.</li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-amber-500">
-                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Weaknesses • الاعتبارات ونطاق الاستكمال لفرع حائل
-                        </h3>
-                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
-                            <li>نسبة الإنجاز الحالية 53% لفرع حائل تتطلب إسناد مقاولين لاستكمال التجهيزات والتشطيبات الداخلية والـ HVAC.</li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-blue-500">
-                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-chart-line text-blue-500"></i> Opportunities • الفرص والقيمة الرأسمالية لفرع حائل
-                        </h3>
-                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
-                            <li>الاستحواذ في حي النقرة المتسارع تجارياً يضمن تنامياً قوياً لقيمة أصل فرع حائل العقاري على المدى المتوسط والطويل.</li>
-                            <li>الريادة كأول مركز عمليات ومبيعات شامل ومتقدم لفرع شركة stc في منطقة حائل.</li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-rose-500">
-                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-radiation text-rose-500"></i> Risks • المخاطر والتحديات الجانبية لفرع حائل
-                        </h3>
-                        <ul class="list-disc list-inside text-sm text-slate-300 mt-4 space-y-2 leading-relaxed">
-                            <li>تأثر الجدول الزمني للتشغيل الفعلي لفرع حائل في حال تأخر إرساء مناقصات التشطيبات وتجهيز الخوادم.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="glass-panel p-6 rounded-xl">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-white" id="lbl-timelineTitle">خارطة طريق الاستحواذ والمسار التنفيذي لفرع حائل</h3>
-                        <span class="text-xs text-slate-400 font-bold" id="lbl-evaluationRef">مرجع تقييم "سهل / خبراء القيمة" المعتمد: 960026354063</span>
-                    </div>
-                    
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative gap-6">
-                        <div class="absolute top-1/2 left-0 right-0 h-1 bg-white/10 -translate-y-1/2 hidden md:block z-0"></div>
-                        
-                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
-                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shadow-[0_0_15px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-check"></i></div>
-                            <div>
-                                <h4 class="text-xs font-bold text-white" id="lbl-tl1">الفحص والتدقيق النافي للجهالة</h4>
-                                <span class="text-[10px] text-slate-400" id="lbl-tl1Sub">مراجعة تقييمات خبراء القيمة وسهل لفرع حائل</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
-                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shadow-[0_0_15px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-check"></i></div>
-                            <div>
-                                <h4 class="text-xs font-bold text-white" id="lbl-tl2">التعاقد ونقل صك الملكية لفرع حائل</h4>
-                                <span class="text-[10px] text-slate-400" id="lbl-tl2Sub">تسهيل كافة الإجراءات ونقل الرخص البلدية</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
-                            <div class="w-10 h-10 rounded-full bg-[#ff007f] text-white flex items-center justify-center font-bold text-sm shadow-[0_0_15px_#ff007f]"><i class="fa-solid fa-spinner animate-spin"></i></div>
-                            <div>
-                                <h4 class="text-xs font-bold text-[#ff007f]" id="lbl-tl3">التخصيص الفني والداخلي لفرع حائل</h4>
-                                <span class="text-[10px] text-slate-400" id="lbl-tl3Sub">تهيئة غرف الخوادم ومجاري الهواء والشبكات</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 text-right md:text-center flex flex-row md:flex-col items-center gap-4 md:gap-2">
-                            <div class="w-10 h-10 rounded-full bg-white/10 text-slate-400 flex items-center justify-center font-bold text-sm border border-white/20">4</div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-400" id="lbl-tl4">تدشين فرع شركة stc بمنطقة حائل</h4>
-                                <span class="text-[10px] text-slate-400" id="lbl-tl4Sub">الإطلاق التشغيلي لمركز العمليات المتكامل للفرع</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-
-        <!-- شريط الحالة الأمني والتنظيمي الفاخر لخدمة مجالس الإدارة ومراجعة البيانات -->
-        <footer class="status-bar fixed bottom-0 left-0 right-0 py-3.5 px-6 z-40 text-xs flex justify-between items-center text-slate-400">
-            <div>
-                System Status: <span class="text-emerald-400 font-bold"><i class="fa-solid fa-circle-check"></i> stc Hail Branch Connected</span>
-            </div>
-            <div class="hidden sm:block">
-                Classification Level: <span class="text-[#ff007f] font-bold">STRICT CONFIDENTIAL • STC BOARD OF DIRECTORS</span>
-            </div>
-            <div>
-                Data Registry: <span id="dataSourceIndicator" class="text-purple-400 font-bold">Connecting...</span>
-            </div>
-        </footer>
+        </form>
 
     </div>
 
-    <!-- كود جافا سكريبت التفاعلي بالكامل للنجوم وتحميل الصور والترجمة والاتصال بـ Supabase -->
+    <!-- كود الربط السحابي بـ Supabase و LocalStorage الاحتياطي -->
     <script>
-        // ── تهيئة بيانات بيئة Supabase المرفقة والمباشرة ──
+        // تهيئة بيانات بيئة Supabase المرفقة والمباشرة الخاصة بمشروعك
         const SUPABASE_URL = "https://yhktemaygekjzxwbwjsz.supabase.co"; 
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inloa3RlbWF5Z2Vranp4d2J3anN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3NDI0MjcsImV4cCI6MjA5ODMxODQyN30.KwNq4LxkOM3YYuOaRQ66n0oMSmdojeqejGrFGrXetsw"; 
 
@@ -591,379 +212,170 @@
             supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        const toastNotification = document.getElementById('toastNotification');
 
-            // 1. حركة مؤشر الفأرة التفاعلي للأجهزة اللوحية والكمبيوتر
-            const cursorOuter = document.getElementById('cursorOuter');
-            const cursorInner = document.getElementById('cursorInner');
-            
-            document.addEventListener('mousemove', (e) => {
-                cursorOuter.style.left = e.clientX + 'px';
-                cursorOuter.style.top = e.clientY + 'px';
-                cursorInner.style.left = e.clientX + 'px';
-                cursorInner.style.top = e.clientY + 'px';
-            });
-
-            // 2. محرك رسم النجوم وحركتها الكونية بـ Canvas
-            const canvas = document.getElementById('spaceCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-
-            const starsArray = [];
-            for(let i=0; i<160; i++) {
-                starsArray.push({
-                    x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight,
-                    size: Math.random() * 1.6 + 0.4,
-                    alpha: Math.random() * 0.85 + 0.15,
-                    speed: Math.random() * 0.02 + 0.006
-                });
-            }
-
-            function animateStars() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#030107';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                let gradient = ctx.createRadialGradient(canvas.width*0.25, canvas.height*0.25, 50, canvas.width*0.25, canvas.height*0.25, 450);
-                gradient.addColorStop(0, 'rgba(122, 34, 179, 0.14)');
-                gradient.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(canvas.width*0.25, canvas.height*0.25, 450, 0, Math.PI * 2);
-                ctx.fill();
-
-                starsArray.forEach(star => {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-                    ctx.beginPath();
-                    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    star.alpha += star.speed;
-                    if(star.alpha > 1 || star.alpha < 0.15) {
-                        star.speed = -star.speed;
-                    }
-                });
-
-                requestAnimationFrame(animateStars);
-            }
-            animateStars();
-
-            // 3. نظام الترجمة المتقن (عربي / إنجليزي)
-            let currentLang = 'ar';
-            const dict = {
-                ar: {
-                    mainTitle: "stc Hail Branch — Strategic Acquisition Proposal",
-                    classification: "سرية تامة • فئة الحماية والموثوقية لمجلس الإدارة",
-                    adminPortalLink: "بوابة الإدارة",
-                    overviewTag: "STRATEGIC ACQUISITION PROPOSAL • HAIL BRANCH ASSET",
-                    briefingTitle: "عرض مقترح استحواذ استراتيجي: مجمع ومقر فرع stc بمنطقة حائل",
-                    briefingDesc: "مقترح استراتيجي موجه للإدارة العليا لشركة stc لحيازة مجمع متميز بنسبة إنجاز 53% ليكون فرع عمليات رقمي متكامل يخدم منطقة حائل ويسرع التواجد الجغرافي تماشياً مع رؤية 2030 وتجنب أعباء بناء المواقع من الصفر.",
-                    financialAsset: "إجمالي الاستثمار المقترح (CapEx)",
-                    justification: "توفير تكاليف الرخص الأساسية وحفر التأسيس",
-                    cardLand: "مساحة الأرض الإجمالية",
-                    cardBua: "إجمالي مسطحات البناء (BUA)",
-                    cardProgress: "نسبة إنجاز الهيكل والواجهات",
-                    cardParking: "السعة اللوجستية للمواقف",
-                    accelerationTitle: "سرعة الإطلاق واختصار الوقت",
-                    accelerationDesc: "الاستحواذ على أصل مكتمل بنسبة 53% لفرع حائل يمثل الخيار الاستراتيجي الأمثل؛ فهو يجمع بين اختصار الزمن (مقارنة بالبناء والترخيص من الصفر والذي يستغرق 12-18 شهراً إضافية) وبين المرونة المطلقة في تعديل وتخصيص الفضاء المعماري الداخلي ليوافق تماماً التصاميم التقنية لمراكز حوسبة خوادم stc.",
-                    accPhase1: "الخرسانة والهيكل",
-                    accPhase1St: "مكتمل 100%",
-                    accPhase2: "التخصيص التقني",
-                    accPhase2St: "مرن / متاح",
-                    accPhase3: "مخاطر إنشائية",
-                    accPhase3St: "شبه منعدمة",
-                    strategicValueTitle: "القيمة والامتياز الاستثماري الاستراتيجي",
-                    strategicValueDesc: "يعيد هذا المشروع توظيف أصل عقاري قائم بما يتطابق مع تطلعات فرع stc حائل للتحول الرقمي وحصص الكفاءة:",
-                    stratVal1: "خدمة كثافة سكانية متنامية بأكثر من 300 ألف نسمة في منطقة حائل.",
-                    stratVal2: "بنية جاهزة واصلة لخدمات الألياف البصرية المتطورة والكهرباء والخدمات الأساسية.",
-                    stratVal3: "استدامة كفاءة الطاقة والموارد المتوافقة تماماً مع معايير كود البناء السعودي لفرع حائل.",
-                    assetReview: "تفاصيل أصول العقار والمعاينة البصرية",
-                    assetReviewDesc: "استخدم مفتاح التبديل التفاعلي لمقارنة الحالة الراهنة للهيكل المصمم مع تصور دمج هوية stc المضيئة على واجهة فرع حائل الزجاجية الممتدة بطول 52 متراً.",
-                    integrationStatus: "فرع شركة STC المطور بمنطقة حائل",
-                    renderingLabel: "نمذجة وتطبيق الهوية البصرية لـ stc على واجهة فرع منطقة حائل الزجاجية بطول 52 م",
-                    galA: "المساحات المفتوحة لفرع حائل - الطابق الأول (1,654 م²)",
-                    galB: "تجهيزات مركز خوادم فرع حائل والـ Data Center",
-                    galC: "صالات خدمة عملاء فرع حائل - الطابق الأرضي (2,217 م²)",
-                    geoMapTitle: "خريطة حائل الذكية: حي النقرة وفرع منطقة حائل",
-                    geoMapDesc: "قم بتمرير مؤشر الفأرة فوق نقاط الملاحة لقياس المزايا والمسافات اللوجستية لفرع حائل المتمركز على شارع سليمان الراجحي بعرض 100م.",
-                    geoCoords: "الموقع والمحور الجغرافي",
-                    distName: "حي النقرة - حائل",
-                    streetName: "شارع الراجحي (100 متر)",
-                    proximityTitle: "جاهزية البنية التحتية والشبكة",
-                    proximityDesc: "يتمتع الموقع بجاهزية كاملة للبنية التحتية الأساسية والخدمات الرقمية؛ حيث واصلت كابلات الألياف البصرية فائقة السرعة، شبكات الكهرباء ذات الجهد العالي الملائمة لعمليات الـ Data Center، أنظمة المياه، والصرف الصحي بالكامل للموقع لخدمة فرع حائل.",
-                    timelineTitle: "خارطة طريق الاستحواذ والمسار التنفيذي لفرع حائل",
-                    evaluationRef: "مرجع تقييم \"سهل / خبراء القيمة\" المعتمد: 960026354063",
-                    fitoutTitle: "جدولة الإنجاز والواجهة الخارجية لفرع حائل",
-                    fitoutDesc: "تم الانتهاء بالكامل من الأعمال الإنشائية التأسيسية للمبنى مع تركيب واجهات الكلادينج والزجاج المزدوج الحامي والمانع للتشتت الصوتي، ويجري تجهيز المرافق الداخلية بما يتوافق مع المعايير الفنية والتكنولوجية المخصصة لفرع stc حائل.",
-                    fitoutStruct: "الهيكل الإنشائي العام",
-                    fitoutClad: "الكلادينج والواجهة الزجاجية",
-                    fitoutInt: "التجهيزات والتبريد الداخلي (الحرج)"
-                },
-                en: {
-                    mainTitle: "stc Hail Branch — Strategic Acquisition Proposal",
-                    classification: "STRICTLY CONFIDENTIAL • STC BOARD TIER 1",
-                    adminPortalLink: "Admin Portal",
-                    overviewTag: "STRATEGIC ACQUISITION PROPOSAL • HAIL BRANCH ASSET",
-                    briefingTitle: "Strategic Acquisition Proposal: stc Hail Branch & Complex",
-                    briefingDesc: "A technical feasibility evaluation prepared exclusively for the stc Executive Committee, examining the strategic advantages of acquiring the premier commercial structure in Hail completed up to 53% to act as stc Hail Branch, avoiding Greenfield building risks.",
-                    financialAsset: "Total Proposed CapEx Budget",
-                    justification: "Avoids basic excavation, structural licensing, & permit barriers",
-                    cardLand: "Total Surface Land Area",
-                    cardBua: "Total Built-Up Area (BUA)",
-                    cardProgress: "Structural Cladding & Skeletal Progress",
-                    cardParking: "Allocated Parking Slot Capacity",
-                    accelerationTitle: "Speed-to-Market Engineering Leverage",
-                    accelerationDesc: "Acquiring a 53% completed structural asset represents the ultimate strategic shortcut for Hail Branch, shortening the conventional commercial project lifecycle by 12-18 months while maintaining absolute flexibility to design internal computing arrays and telecom cooling conduits.",
-                    accPhase1: "Concrete Skeleton",
-                    accPhase1St: "100% Complete",
-                    accPhase2: "Data Center Ready",
-                    accPhase2St: "Fully Adaptable",
-                    accPhase3: "Skeletal Risk",
-                    accPhase3St: "Negligible",
-                    strategicValueTitle: "Executive Value & Provincial Strategic Synergy",
-                    strategicValueDesc: "The facility successfully re-engineers a premium local property to align with stc Hail Branch's digital transformation agenda & Vision 2030 targets:",
-                    stratVal1: "Serving an expanding base of over 300,000 residents in Hail region.",
-                    stratVal2: "Directly connected to high-performance fiber networks and resilient municipal power grids.",
-                    stratVal3: "Energy efficient asset architecture compliant with the rigorous Saudi Building Code for Hail Branch.",
-                    assetReview: "Asset Visual Verification & Rendering Sim",
-                    assetReviewDesc: "Toggle below to compare the current structural as-is shell state with stc's high-tech dynamic illuminated facade design stretching across 52 meters.",
-                    integrationStatus: "stc HAIL BRANCH CENTER",
-                    renderingLabel: "Conceptual stc branding layout modeled onto the 52m glass facade of Hail Branch",
-                    galA: "Open Layout Workspace Area of Hail Branch (1,654 SQM)",
-                    galB: "Server Array Space & Computing Enclosures of Hail Branch",
-                    galC: "Customer Interaction Area of Hail Branch (2,217 SQM)",
-                    geoMapTitle: "Nuqrah District Spatial Intelligence Grid: Hail Branch",
-                    geoMapDesc: "Hover over the strategic nodes to query logistic travel times and distances from the site located on the 100m Al-Rajhi arterial expressway.",
-                    geoCoords: "Geographic Coordinates",
-                    distName: "Nuqrah District - Hail",
-                    streetName: "Sheikh Al-Rajhi St (100m Width)",
-                    proximityTitle: "Infrastructure Integrity & Fiber Presence",
-                    proximityDesc: "The asset is fully supported by municipal service lines; including dedicated telecom fiber bundles, redundant electrical feeds suited for high-density compute, and state-of-the-art utility loops to serve Hail Branch.",
-                    timelineTitle: "Acquisition Roadmap & Action Plan for Hail Branch",
-                    evaluationRef: "Evaluation Reference (Sahl / Khubara'a Al-Qeema): 960026354063",
-                    fitoutTitle: "Completion Schedule & Dynamic Envelope of Hail Branch",
-                    fitoutDesc: "The core reinforced skeleton is fully complete, with dual-performance performance acoustic insulation glazing installed. Final internal mechanical frameworks are in advanced progress to meet strict stc design standards.",
-                    fitoutStruct: "Reinforced Skeletal Skeleton",
-                    fitoutClad: "Engineered External Metal Cladding & Double-Glazing",
-                    fitoutInt: "Internal Mechanical Systems & Critical Cooling"
-                }
-            };
-
-            const langToggleBtn = document.getElementById('langToggleBtn');
-            function toggleLanguage() {
-                currentLang = currentLang === 'ar' ? 'en' : 'ar';
-                document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-                langToggleBtn.innerText = currentLang === 'ar' ? 'English' : 'العربية';
-
-                for(let key in dict[currentLang]) {
-                    const node = document.getElementById(`lbl-${key}`);
-                    if(node) node.innerText = dict[currentLang][key];
-                }
-
-                document.getElementById('txt-mapExpressway').innerText = currentLang === 'ar' ? 'المدخل من الطريق الدائري' : 'Access from Expressway';
-                document.getElementById('txt-mapMosque').innerText = currentLang === 'ar' ? 'جامعة الراجحي الكبيرة' : 'Al-Rajhi Mosque';
-                document.getElementById('txt-mapDanube').innerText = currentLang === 'ar' ? 'مجمعات الدانوب والأسواق' : 'Danube Retail Center';
-                document.getElementById('txt-mapStreet').innerText = currentLang === 'ar' ? 'شارع الشيخ سليمان الراجحي (100م)' : 'Sheikh Al-Rajhi St (100m)';
-            }
-            langToggleBtn.addEventListener('click', toggleLanguage);
-
-
-            // 4. آلية جلب البيانات (Supabase مع Fallback التلقائي لـ LocalStorage)
-            const dataIndicator = document.getElementById('dataSourceIndicator');
-
-            async function loadDashboardData() {
-                if (supabaseClient) {
-                    try {
-                        dataIndicator.innerText = "Supabase Cloud Syncing...";
-                        let { data, error } = await supabaseClient
-                            .from('stc_hail_branch')
-                            .select('*')
-                            .eq('id', 1)
-                            .single();
-                        
-                        if (data) {
-                            applyDataToUI(data);
-                            dataIndicator.innerText = "Supabase Cloud Active";
-                            dataIndicator.style.color = "#00ffaa";
-                            return;
-                        }
-                    } catch (e) {
-                        console.log("Supabase error, falling back to LocalStorage.");
-                    }
-                }
-                
-                // Fallback إلى LocalStorage
-                const saved = JSON.parse(localStorage.getItem('stc_dashboard_data_branch_v6'));
-                if (saved) {
-                    applyDataToUI(saved);
-                    dataIndicator.innerText = "LocalStorage Native Schema";
-                    dataIndicator.style.color = "#ff007f";
-                } else {
-                    dataIndicator.innerText = "Default Hardcoded Schema";
-                }
-            }
-
-            function applyDataToUI(saved) {
-                document.getElementById('disp-price').innerText = `SAR ${parseInt(saved.price.replace(/,/g, '')).toLocaleString()}`;
-                document.getElementById('disp-landArea').innerText = `${parseInt(saved.landarea || saved.landArea).toLocaleString()} م²`;
-                document.getElementById('disp-bua').innerText = `${parseInt(saved.bua).toLocaleString()} م²`;
-                document.getElementById('disp-progress').innerText = `${saved.progress}%`;
-                document.getElementById('disp-progressBar').style.width = `${saved.progress}%`;
-                document.getElementById('disp-parking').innerText = `${saved.parking} موقف سيارة`;
-                document.getElementById('disp-fitoutBar').style.width = `${saved.fitout}%`;
-
-                // مزامنة الصور
-                if (saved.img_current) document.getElementById('primaryBuildingImg').src = saved.img_current;
-                if (saved.img_gala) document.getElementById('galImgNodeA').src = saved.img_gala;
-            }
-
-            // 5. استماع لحظي للتغييرات (Realtime Sync) لضمان التحديث بدون تحديث الصفحة
+        // جلب وتعبئة قيم الحقول من قاعدة البيانات السحابية أو المحلية فور تحميل الصفحة
+        async function loadConfig() {
             if (supabaseClient) {
-                supabaseClient
-                    .channel('schema-db-changes')
-                    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stc_hail_branch' }, payload => {
-                        applyDataToUI(payload.new);
-                    })
-                    .subscribe();
+                try {
+                    let { data, error } = await supabaseClient
+                        .from('stc_hail_branch')
+                        .select('*')
+                        .eq('id', 1)
+                        .single();
+                    if (data) {
+                        applyToInputs(data);
+                        return;
+                    }
+                } catch (e) {
+                    console.log("Supabase fetch failed, trying local backup.");
+                }
             }
 
-            // 6. تفعيل تصفح التبويبات (Tabs Navigation)
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
+            // Fallback محلي في حال انقطاع الشبكة
+            const saved = JSON.parse(localStorage.getItem('stc_dashboard_data_branch_v6'));
+            if (saved) {
+                document.getElementById('adm-price').value = saved.price || '26,000,000';
+                document.getElementById('adm-landArea').value = saved.landarea || saved.landArea || '4,104';
+                document.getElementById('adm-bua').value = saved.bua || '4,165';
+                document.getElementById('adm-progress').value = saved.progress || '53';
+                document.getElementById('adm-parking').value = saved.parking || '50';
+                document.getElementById('adm-fitout').value = saved.fitout || '75';
+            }
+        }
 
-            tabButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    tabButtons.forEach(b => b.classList.remove('active'));
-                    tabContents.forEach(c => c.classList.remove('active-content'));
+        function applyToInputs(data) {
+            document.getElementById('adm-price').value = data.price;
+            document.getElementById('adm-landArea').value = data.landarea || data.landArea || '4,104';
+            document.getElementById('adm-bua').value = data.bua;
+            document.getElementById('adm-progress').value = data.progress;
+            document.getElementById('adm-parking').value = data.parking;
+            document.getElementById('adm-fitout').value = data.fitout;
+            if (data.img_current && data.img_current.startsWith("http")) document.getElementById('adm-imgCurrentUrl').value = data.img_current;
+            if (data.img_gala && data.img_gala.startsWith("http")) document.getElementById('adm-imgGalAUrl').value = data.img_gala;
+        }
 
-                    btn.classList.add('active');
-                    const targetTabId = btn.getAttribute('data-tab');
-                    document.getElementById(targetTabId).classList.add('active-content');
-                });
-            });
-
-            // 7. مفاتيح التبديل التفاعلية للمعاينة لفرع حائل
-            const viewAsIsBtn = document.getElementById('viewAsIsBtn');
-            const viewStcBtn = document.getElementById('viewStcBtn');
-            const stcVisionOverlay = document.getElementById('stcVisionOverlay');
-
-            viewAsIsBtn.addEventListener('click', () => {
-                viewAsIsBtn.classList.add('bg-white', 'text-black');
-                viewAsIsBtn.classList.remove('text-slate-300');
-                viewStcBtn.classList.remove('bg-white', 'text-black');
-                viewStcBtn.classList.add('text-slate-300');
-                
-                stcVisionOverlay.style.opacity = '0';
-                stcVisionOverlay.style.pointerEvents = 'none';
-            });
-
-            viewStcBtn.addEventListener('click', () => {
-                viewStcBtn.classList.add('bg-white', 'text-black');
-                viewStcBtn.classList.remove('text-slate-300');
-                viewAsIsBtn.classList.remove('bg-white', 'text-black');
-                viewAsIsBtn.classList.add('text-slate-300');
-
-                stcVisionOverlay.style.opacity = '1';
-                stcVisionOverlay.style.pointerEvents = 'auto';
-            });
-
-            // 8. محاكاة تفاعلية لتفاصيل المعالم الجغرافية القريبة بحي النقرة
-            const mapNodes = document.querySelectorAll('.map-node[data-point]');
-            const tooltipTitle = document.getElementById('tooltipTitle');
-            const tooltipDesc = document.getElementById('tooltipDesc');
-
-            const locationsDb = {
-                expressway: {
-                    ar: { title: "🛣️ سهولة الوصول والربط بالطريق الدائري", desc: "مدخل مباشر وسريع للغاية لفرع حائل من الطريق الدائري، يمنح الموظفين وكبار الشخصيات وصولاً متميزاً وسريعاً." },
-                    en: { title: "🛣️ Direct Expressway Access link", desc: "Immediate transit loop connected directly with the Hail ring road, simplifying Hail Branch executive travel." }
-                },
-                mosque: {
-                    ar: { title: "🕌 معلم مجاور: جامع الراجحي الكبير بحائل", desc: "يقع كمعلم عمراني واجتماعي رئيسي شهير بالقرب من المجمع مما يسهل الملاحة الجغرافية ووصف موقع فرع حائل." },
-                    en: { title: "🕌 Urban Landmark: Al-Rajhi Grand Mosque", desc: "Positioned adjacent to the site, acting as a major local geometric reference for Hail Branch navigation." }
-                },
-                danube: {
-                    ar: { title: "🛍️ مجمعات الدانوب والمراكز التجارية", desc: "تموضع بجوار أهم المخططات التجارية المعاصرة (بوليفارد ومراكز الأعمال) مما يعزز سهولة تأمين مبيعات قطاع التجزئة لفرع stc حائل." },
-                    en: { title: "🛍️ Danube Retails & Commercial Zone", desc: "Flanked by premium commercial lifestyle development districts, highly supportive of stc Hail Branch B2B showcases." }
-                },
-                street100: {
-                    ar: { title: "🛣️ شريان رئيسي: شارع الشيخ سليمان الراجحي", desc: "شريان تجاري عريض بعرض 100 متر يوفر واجهة ممتدة لفرع حائل بطول 52 متراً لعرض فخم لهوية وعلامة stc التجارية." },
-                    en: { title: "🛣️ Major Arterial: Sheikh Suleiman Al-Rajhi St", desc: "A prestigious 100-meter-wide commercial road offering the stc Hail Branch an excellent 52-meter facade exposure." }
-                }
+        // معالجة ونشر البيانات السحابية
+        async function publishConfig() {
+            const config = {
+                price: document.getElementById('adm-price').value,
+                landarea: document.getElementById('adm-landArea').value,
+                bua: document.getElementById('adm-bua').value,
+                progress: parseInt(document.getElementById('adm-progress').value),
+                parking: parseInt(document.getElementById('adm-parking').value),
+                fitout: parseInt(document.getElementById('adm-fitout').value)
             };
 
-            mapNodes.forEach(node => {
-                node.addEventListener('mouseenter', function() {
-                    const point = this.getAttribute('data-point');
-                    if(locationsDb[point]) {
-                        tooltipTitle.innerHTML = `<i class="fa-solid fa-location-crosshairs text-[#ff007f]"></i> ${locationsDb[point][currentLang].title}`;
-                        tooltipDesc.innerText = locationsDb[point][currentLang].desc;
-                    }
-                });
-                node.addEventListener('mouseleave', function() {
-                    tooltipTitle.innerHTML = `<i class="fa-solid fa-satellite-dish text-[#ff007f]"></i> مصفوفة الملاحة والارتباط الجغرافي`;
-                    tooltipDesc.innerText = currentLang === 'ar' ? "مرر الفأرة فوق أي نقطة على الخريطة لقراءة التفاصيل والوصول اللوجستي المباشر من الدائري." : "Hover over a strategic asset node on the layout map to calculate vector properties.";
-                });
-            });
+            const imgCurrentUrl = document.getElementById('adm-imgCurrentUrl').value;
+            if (imgCurrentUrl) config.img_current = imgCurrentUrl;
+            
+            const imgGalAUrl = document.getElementById('adm-imgGalAUrl').value;
+            if (imgGalAUrl) config.img_gala = imgGalAUrl;
 
-            // 9. تفاصيل الطوابق التفاعلية لفرع حائل
-            const floorSelectors = document.querySelectorAll('.floor-selector');
-            const floorTitle = document.getElementById('floorTitle');
-            const floorBadge = document.getElementById('floorBadge');
-            const floorDescription = document.getElementById('floorDescription');
-            const floorInteriorMapLabel = document.getElementById('floorInteriorMapLabel');
+            // إحضار الصور المحلية الاحتياطية إن وجدت
+            if (!config.img_current && localStorage.getItem('stc_img_current_v5')) {
+                config.img_current = localStorage.getItem('stc_img_current_v5');
+            }
+            if (!config.img_gala && localStorage.getItem('stc_img_gala_v5')) {
+                config.img_gala = localStorage.getItem('stc_img_gala_v5');
+            }
 
-            const floorsDb = {
-                ground: {
-                    title: { ar: "الدور الأرضي لفرع حائل: مساحات مفتوحة ومركز تجربة العملاء", en: "Ground Level: Customer Experience & Open Space Center" },
-                    badge: { ar: "Open Space System (2,217 SQM)", en: "Open Space System (2,217 SQM)" },
-                    desc: { ar: "مساحة واسعة جداً بمقدار 2,217 متر مربع بنظام المساحات المفتوحة (Open Space)، مثالية لمراكز البيانات والشبكات، صالات خدمة العملاء الفاخرة لفرع حائل.", en: "Dedicated to premium customer journeys, immersive showroom capabilities, and Hail Branch sales support metrics." },
-                    layout: "stc Hail Branch Retail Center & Customer Experience Layout (2,217 SQM)"
-                },
-                first: {
-                    title: { ar: "الدور الأول لفرع حائل: المكاتب الإدارية والعمليات الرقمية", en: "First Level: Enterprise Offices & Digital Operations" },
-                    badge: { ar: "Corporate Command (1,654 SQM)", en: "Corporate Command (1,654 SQM)" },
-                    desc: { ar: "مساحة مخصصة بمقدار 1,654 متر مربع لفرع حائل تدعم عمليات قطاع الشركات ومكاتب القيادات وإدارة الشبكة، مع بنية مفتوحة تتيح تعديل القواطع بسهولة.", en: "Covering 1,654 square meters, designed for Hail Branch network supervision, executive team offices, and collaborative cubicles." },
-                    layout: "stc Hail Branch IT Operations & Network Command Layout (1,654 SQM)"
-                },
-                structural: {
-                    title: { ar: "الهيكلة الكلية لفرع حائل: 4 مبانٍ متصلة", en: "Total Complex Geometry: 4 Interconnected Buildings" },
-                    badge: { ar: "Total Complex System (4,165 SQM BUA)", en: "Total Complex System (4,165 SQM BUA)" },
-                    desc: { ar: "مجمع متكامل ومترابط من 4 مبانٍ متصلة يمنح فرع stc حائل هيمنة مكانية متميزة، ويوفر مرونة استثنائية للفصل التشغيلي والأمني بين قطاع التجزئة والعمليات الحرجة.", en: "A unified system of 4 connected commercial shells, providing stc Hail Branch with spatial dominance and a clean operational baseline." },
-                    layout: "stc Hail Branch Master Interconnected Shell & Complex Overview (4,165 SQM BUA)"
-                }
-            };
-
-            floorSelectors.forEach(selector => {
-                selector.addEventListener('click', function() {
-                    floorSelectors.forEach(s => {
-                        s.classList.remove('active', 'border-[#ff007f]');
-                        s.classList.add('text-slate-400');
-                    });
+            if (supabaseClient) {
+                try {
+                    const { error } = await supabaseClient
+                        .from('stc_hail_branch')
+                        .update(config)
+                        .eq('id', 1);
                     
-                    this.classList.add('active');
-                    this.classList.remove('text-slate-400');
-
-                    const floor = this.getAttribute('data-floor');
-                    if(floorsDb[floor]) {
-                        floorTitle.innerText = floorsDb[floor].title[currentLang];
-                        floorBadge.innerText = floorsDb[floor].badge[currentLang];
-                        floorDescription.innerText = floorsDb[floor].desc[currentLang];
-                        floorInteriorMapLabel.innerText = floorsDb[floor].layout;
+                    if (!error) {
+                        showToast();
+                        return;
+                    } else {
+                        console.error("Supabase update error:", error);
                     }
-                });
+                } catch (e) {
+                    console.log("Supabase save failed, fallback to local saving.");
+                }
+            }
+
+            localStorage.setItem('stc_dashboard_data_branch_v6', JSON.stringify(config));
+            showToast();
+        }
+
+        function showToast() {
+            toastNotification.classList.add('show');
+            setTimeout(() => {
+                toastNotification.classList.remove('show');
+            }, 3500);
+        }
+
+        // تحويل ورفع الصور محلياً كودياً
+        function handleImageUpload(inputEl, storageKey) {
+            inputEl.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            localStorage.setItem(storageKey, e.target.result);
+                        } catch (err) {
+                            alert("حجم الصورة كبير على ذاكرة المتصفح المؤقتة. نوصي باستخدام خيار روابط الصور الخارجية المباشرة.");
+                        }
+                    }
+                    reader.readAsDataURL(file);
+                }
             });
+        }
 
-            // تحميل وتحديث البيانات عند إقلاع الصفحة
-            loadDashboardData();
+        handleImageUpload(document.getElementById('adm-imgCurrent'), 'stc_img_current_v5');
+        handleImageUpload(document.getElementById('adm-imgGalA'), 'stc_img_gala_v5');
 
-        });
+        document.getElementById('publishBtn').addEventListener('click', publishConfig);
+
+        // تشغيل النجوم الكونية الخلفية بـ Canvas
+        const spaceCanvas = document.getElementById('spaceCanvas');
+        const sCtx = spaceCanvas.getContext('2d');
+        
+        function resizeCanvas() {
+            spaceCanvas.width = window.innerWidth;
+            spaceCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const stars = [];
+        for(let i=0; i<100; i++) {
+            stars.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                size: Math.random() * 1.5 + 0.5,
+                alpha: Math.random() * 0.8 + 0.2,
+                speed: Math.random() * 0.015 + 0.005
+            });
+        }
+
+        function animate() {
+            sCtx.clearRect(0, 0, spaceCanvas.width, spaceCanvas.height);
+            sCtx.fillStyle = '#030107';
+            sCtx.fillRect(0, 0, spaceCanvas.width, spaceCanvas.height);
+
+            stars.forEach(star => {
+                sCtx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                sCtx.beginPath();
+                sCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                sCtx.fill();
+
+                star.alpha += star.speed;
+                if(star.alpha > 1 || star.alpha < 0.2) {
+                    star.speed = -star.speed;
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // تحميل الإعدادات عند البدء
+        loadConfig();
     </script>
 
 </body>
