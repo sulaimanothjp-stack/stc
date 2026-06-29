@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -146,7 +147,7 @@
 
         /* غطاء محاكاة هوية stc للواجهة الزجاجية */
         .stc-vision-overlay {
-            background: linear-gradient(to bottom, rgba(122,34,179,0.5), rgba(15, 4, 31, 0.95));
+            background: linear-gradient(to bottom, rgba(122,34,179,0.55), rgba(15, 4, 31, 0.95));
         }
         
         /* وميض ونبض النيون الذكي لشعار stc المستقبلي */
@@ -408,12 +409,8 @@
                             </svg>
 
                             <div id="telemetryTooltip" class="absolute bottom-4 left-4 right-4 bg-black/95 p-4 rounded-lg border border-[#7a22b3] backdrop-blur-md">
-                                <h4 id="tooltipTitle" class="text-sm font-black text-white flex items-center gap-2">
-                                    <i class="fa-solid fa-satellite-dish text-[#ff007f]"></i> مصفوفة الملاحة والارتباط الجغرافي
-                                </h4>
-                                <p id="tooltipDesc" class="text-xs text-slate-400 mt-1 leading-relaxed">
-                                    مرر الفأرة فوق أي نقطة على الخريطة لقراءة التفاصيل والوصول اللوجستي المباشر من الطريق الدائري.
-                                </p>
+                                <h4 id="tooltipTitle">مصفوفة الملاحة والارتباط الجغرافي</h4>
+                                <p id="tooltipDesc">مرر الفأرة فوق أي نقطة على الخريطة لقراءة التفاصيل والوصول اللوجستي المباشر من الطريق الدائري.</p>
                             </div>
                         </div>
                     </div>
@@ -907,7 +904,7 @@
                     }
                 });
                 node.addEventListener('mouseleave', function() {
-                    tooltipTitle.innerHTML = `<i class="fa-solid fa-satellite-dish text-[#ff007f]"></i> مصفوفة الملاحة والارتباط الجغرافي`;
+                    tooltipTitle.innerHTML = `مصفوفة الملاحة والارتباط الجغرافي`;
                     tooltipDesc.innerText = currentLang === 'ar' ? "مرر الفأرة فوق أي نقطة على الخريطة لقراءة التفاصيل والوصول اللوجستي المباشر من الدائري." : "Hover over a strategic asset node on the layout map to calculate vector properties.";
                 });
             });
